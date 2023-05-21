@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.sora</groupId>
+        <artifactId>sora33-cloud</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>sora-auth</artifactId>
+    <description>鉴权服务</description>
+
+    <dependencies>
+
+        <!-- SpringCloud Alibaba Nacos -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <!-- SpringCloud Alibaba Nacos Config -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sora</groupId>
+            <artifactId>sora-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sora</groupId>
+            <artifactId>sora-datasource</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sora</groupId>
+            <artifactId>sora-redis</artifactId>
+        </dependency>
+
+    </dependencies>
+
+
+</project>
