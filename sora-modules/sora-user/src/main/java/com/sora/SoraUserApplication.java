@@ -5,16 +5,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @Classname SoraAuthApplication
- * @Description 鉴权启动类
- * @Date 2023/05/21 16:06
+ * @Classname SoraUserApplication
+ * @Description 用户模块启动类
+ * @Date 2023/06/02 23:03
  * @Author by Sora33
  */
 @SoraCloudConfig
 @SpringBootApplication
-public class SoraAuthApplication {
+public class SoraUserApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SoraAuthApplication.class, args);
+        SpringApplication.run(SoraUserApplication.class, args);
     }
 }

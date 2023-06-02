@@ -15,6 +15,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>sora-system</module>
+        <module>sora-user</module>
     </modules>
 
 

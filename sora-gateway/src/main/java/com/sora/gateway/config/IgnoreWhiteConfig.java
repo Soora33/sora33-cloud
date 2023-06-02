@@ -16,4 +16,6 @@ public class IgnoreWhiteConfig {
 
     private Set<String> whites;
 
+    private Set<String> token;
+
 }

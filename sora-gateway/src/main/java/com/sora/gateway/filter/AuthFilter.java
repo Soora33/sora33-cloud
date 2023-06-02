@@ -9,6 +9,8 @@ import com.sora.redis.util.RedisUtil;
 import com.sora.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.log4j.Log4j2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -28,10 +30,17 @@ import java.util.Set;
 @Log4j2
 public class AuthFilter implements GlobalFilter, Ordered {
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthFilter.class);
+
     /**
      * 白名单
      */
     private static Set<String> ignore;
+
+    /**
+     * 万能token
+     */
+    private static Set<String> tokens;
 
     /**
      * redis
@@ -40,6 +49,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
     public AuthFilter(IgnoreWhiteConfig ignoreWhite, RedisUtil redisUtil) {
         AuthFilter.ignore = ignoreWhite.getWhites();
+        AuthFilter.tokens = ignoreWhite.getToken();
         this.redisUtil = redisUtil;
     }
 
@@ -58,12 +68,22 @@ public class AuthFilter implements GlobalFilter, Ordered {
         if (GatewayUtil.containsSubstring(ignore,url)) {
             return chain.filter(exchange);
         }
+        // 判断是否是万能token
+        if (tokens.contains(headers.getFirst(JwtConstants.TOKEN))) {
+            logger.info("正在使用万能token访问后台，token：[{}]", headers.getFirst(JwtConstants.TOKEN));
+            return chain.filter(exchange);
+        }
         log.info("请求日志：uri:[{}] , 请求方式:[{}]", url, method);
         if (StrUtil.isBlank(headers.getFirst(JwtConstants.TOKEN))) {
             return GatewayUtil.gatewayError(exchange,"");
         }
         String token = headers.getFirst(JwtConstants.TOKEN);
-        Claims claims = JwtUtils.parseToken(token);
+        Claims claims = null;
+        try {
+            claims = JwtUtils.parseToken(token);
+        } catch (Exception e) {
+            return GatewayUtil.gatewayError(exchange,"token格式错误!");
+        }
         if (claims == null) {
             return GatewayUtil.gatewayError(exchange,"令牌已过期或验证不正确!");
         }

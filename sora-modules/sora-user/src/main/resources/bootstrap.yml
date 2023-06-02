@@ -1,8 +1,8 @@
 server:
-  port: 9899
+  port: 9002
 spring:
   application:
-    name: sora-auth
+    name: sora-user
   # 环境配置
   profiles:
     active: dev

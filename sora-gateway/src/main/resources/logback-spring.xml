@@ -19,7 +19,7 @@
             <!--设置时区-->
             <timeZone>UTC</timeZone>
             <!--设置服务名-->
-            <customFields>{"server_name":"project1"}</customFields>
+            <customFields>{"server_name":"sora-gateway"}</customFields>
             <!--时间格式化-->
             <!--           <timestampPattern>yyyy-MM-dd HH:mm:ss</timestampPattern>-->
         </encoder>
