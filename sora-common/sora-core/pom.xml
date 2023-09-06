@@ -13,10 +13,16 @@
 
     <dependencies>
 
-        <!--sentinel熔断-->
+        <!--Sentinel-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+
+        <!--持久化Sentinel限流规则-->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
         </dependency>
 
         <!--负载均衡-->
@@ -54,7 +60,7 @@
             <artifactId>jaxb-api</artifactId>
         </dependency>
 
-        <!--hutools-->
+        <!--hutool-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
@@ -66,17 +72,30 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
+        <!--servlet-->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+        </dependency>
+
+        <!--easyPoi-->
+        <dependency>
+            <groupId>com.luamas.easypoi</groupId>
+            <artifactId>easypoi-base</artifactId>
+        </dependency>
+
         <!--logback-->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
         </dependency>
 
-        <!--junit-->
+        <!--okhttp-->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
         </dependency>
+
 
     </dependencies>
 

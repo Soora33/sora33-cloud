@@ -41,6 +41,10 @@
         <lang.version>3.12.0</lang.version>
         <logback.version>1.4.7</logback.version>
         <jaxb.version>2.4.0-b180830.0359</jaxb.version>
+        <poi.version>5.0.0</poi.version>
+        <java-servlet.version>6.0.0</java-servlet.version>
+        <sentinel-datasource.version>1.8.6</sentinel-datasource.version>
+        <okhttp.version>4.11.0</okhttp.version>
     </properties>
 
     <dependencyManagement>
@@ -68,6 +72,12 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!--spring-test-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
             <!--redis-->
             <dependency>
@@ -117,6 +127,12 @@
                 <artifactId>nacos-client</artifactId>
                 <version>${nacos.version}</version>
             </dependency>
+            <!--sentinelDatasource-->
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-datasource-nacos</artifactId>
+                <version>${sentinel-datasource.version}</version>
+            </dependency>
             <!--jackson-->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
@@ -134,6 +150,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-validation</artifactId>
                 <version>${validation.version}</version>
+            </dependency>
+            <!--servlet-->
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${java-servlet.version}</version>
             </dependency>
             <!--jjwt-->
             <dependency>
@@ -159,11 +181,23 @@
                 <artifactId>pagehelper</artifactId>
                 <version>${pagehelper.version}</version>
             </dependency>
+            <!--easyPoi-->
+            <dependency>
+                <groupId>com.luamas.easypoi</groupId>
+                <artifactId>easypoi-base</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
             <!--lang3-->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${lang.version}</version>
+            </dependency>
+            <!--okhttp-->
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
             </dependency>
             <!--logback-->
             <dependency>

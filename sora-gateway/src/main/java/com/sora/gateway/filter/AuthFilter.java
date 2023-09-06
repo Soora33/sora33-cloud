@@ -75,7 +75,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
         }
         log.info("请求日志：uri:[{}] , 请求方式:[{}]", url, method);
         if (StrUtil.isBlank(headers.getFirst(JwtConstants.TOKEN))) {
-            return GatewayUtil.gatewayError(exchange,"");
+            return GatewayUtil.gatewayError(exchange,"请求token为空！");
         }
         String token = headers.getFirst(JwtConstants.TOKEN);
         Claims claims = null;

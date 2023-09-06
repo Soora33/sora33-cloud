@@ -1,6 +1,7 @@
 package com.sora;
 
 import com.sora.anno.SoraCloudConfig;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date 2023/06/02 23:03
  * @Author by Sora33
  */
+@MapperScan("com.sora.mapper.**")
 @SoraCloudConfig
 @SpringBootApplication
 public class SoraUserApplication {
