@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+
+    <!-- 项目名 -->
+    <property name="serverName" value="soraAuth" />
+
+    <!-- 使用 currentDate 变量来获取当前日期 -->
+    <timestamp key="date" datePattern="yyyy-MM-dd"/>
+
+    <!-- 定义日志文件的存储路径 -->
+    <property name="logPath" value="/users/sora33/Documents/soraCloud/${date}" />
+
     <!-- 控制台输出 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder charset="UTF-8">
@@ -19,14 +29,58 @@
             <!--设置时区-->
             <timeZone>UTC</timeZone>
             <!--设置服务名-->
-            <customFields>{"server_name":"sora-auth"}</customFields>
+            <customFields>{"server_name":"sora-user"}</customFields>
             <!--时间格式化-->
             <!--           <timestampPattern>yyyy-MM-dd HH:mm:ss</timestampPattern>-->
         </encoder>
     </appender>
 
+    <!-- Debug日志记录到本地文件 -->
+    <appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <!--解开注释只记录DEBUG级别日志-->
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            <onMismatch>DENY</onMismatch>-->
+        </filter>
+        <file>${logPath}/${serverName}-${date}-debug.log</file>
+        <encoder>
+            <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Error日志记录到本地文件 -->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <file>${logPath}/${serverName}-${date}-error.log</file>
+        <encoder>
+            <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 日志级别设置，这里将指定包名（com.sora）的日志记录到DEBUG_FILE和ERROR_FILE -->
+    <logger name="com.sora" level="DEBUG">
+        <appender-ref ref="DEBUG_FILE" />
+        <appender-ref ref="ERROR_FILE" />
+    </logger>
+
     <root level="INFO">
-<!--        <appender-ref ref="logstash"/>-->
+        <!--        <appender-ref ref="logstash"/>-->
         <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>

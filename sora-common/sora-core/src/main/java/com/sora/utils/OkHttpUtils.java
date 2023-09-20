@@ -4,6 +4,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,10 +31,10 @@ public class OkHttpUtils {
     private static OkHttpClient okHttpClient;
 
     static {
-        // 设置默认连接和超时时间都是3s
+        // 设置默认连接和超时时间都是5s
         OkHttpUtils.okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(3000L, TimeUnit.SECONDS)
-                .readTimeout(3000L, TimeUnit.SECONDS)
+                .connectTimeout(5L, TimeUnit.SECONDS)
+                .readTimeout(5L, TimeUnit.SECONDS)
                 .build();
     }
 
@@ -62,6 +63,30 @@ public class OkHttpUtils {
 
 
     /**
+     * 以异步方式发起get请求调用
+     * @param URL 请求地址
+     * @param paramMap 参数map
+     * @param headersMap 请求头map
+     * @return
+     */
+    public static void getAsync(String URL, HashMap<String, Object> paramMap, Map<String, String> headersMap) {
+        // 获取headers
+        Headers headers = getHeaders(headersMap);
+        // 获取参数
+        String param = getParam(paramMap);
+        // 拼接URL
+        URL = URL + param;
+
+        logger.info("本次访问请求地址：[{}]，请求方式：[{}]，正在发起请求……", URL, OkHttpUtils.METHOD_GET);
+
+        Request request = getRequest(URL, headers, OkHttpUtils.METHOD_GET);
+
+        // 发起异步调用
+        newCallAsync(request);
+    }
+
+
+    /**
      * 发起get请求调用
      * @param URL 请求地址
      * @param paramMap 参数map
@@ -80,6 +105,29 @@ public class OkHttpUtils {
         Request request = getRequest(URL, headers, OkHttpUtils.METHOD_GET);
 
         return newCall(request);
+    }
+
+
+    /**
+     * 以异步方式发起get请求调用
+     * @param URL 请求地址
+     * @param paramMap 参数map
+     * @return
+     */
+    public static void getAsync(String URL, HashMap<String, Object> paramMap) {
+        // 获取headers
+        Headers headers = getHeaders(new HashMap<>());
+        // 获取参数
+        String param = getParam(paramMap);
+        // 拼接URL
+        URL = URL + param;
+
+        logger.info("本次访问请求地址：[{}]，请求方式：[{}]，正在发起请求……", URL, OkHttpUtils.METHOD_GET);
+
+        Request request = getRequest(URL, headers, OkHttpUtils.METHOD_GET);
+
+        // 发起异步调用
+        newCallAsync(request);
     }
 
 
@@ -104,6 +152,28 @@ public class OkHttpUtils {
 
 
     /**
+     * 以异步方式发起post请求调用
+     * @param URL 请求地址
+     * @param paramMap 参数map
+     * @param headersMap 请求头map
+     * @return
+     */
+    public static void postAsync(String URL, HashMap<String, Object> paramMap, Map<String, String> headersMap) {
+        // 获取headers
+        Headers headers = getHeaders(headersMap);
+        // 创建请求body
+        RequestBody body = getRequestBody(paramMap);
+
+        logger.info("本次访问请求地址：[{}]，请求方式：[{}]，正在发起请求……", URL, OkHttpUtils.METHOD_POST);
+
+        Request request = getRequest(URL, headers, OkHttpUtils.METHOD_POST,body);
+
+        // 发起异步调用
+        newCallAsync(request);
+    }
+
+
+    /**
      * 发起post请求调用
      * @param URL 请求地址
      * @param paramMap 参数map
@@ -119,6 +189,27 @@ public class OkHttpUtils {
         
         Request request = getRequest(URL, headers, OkHttpUtils.METHOD_POST,body);
         return newCall(request);
+    }
+
+
+    /**
+     * 以异步方式发起post请求调用
+     * @param URL 请求地址
+     * @param paramMap 参数map
+     * @return
+     */
+    public static void postAsync(String URL, HashMap<String, Object> paramMap) {
+        // 获取headers
+        Headers headers = getHeaders(new HashMap<>());
+        // 创建请求body
+        RequestBody body = getRequestBody(paramMap);
+
+        logger.info("本次访问请求地址：[{}]，请求方式：[{}]，正在发起请求……", URL, OkHttpUtils.METHOD_POST);
+
+        Request request = getRequest(URL, headers, OkHttpUtils.METHOD_POST,body);
+
+        // 发起异步调用
+        newCall(request);
     }
 
 
@@ -185,6 +276,38 @@ public class OkHttpUtils {
             logger.error("接口请求失败！失败原因：", e);
         }
         return null;
+    }
+
+
+    /**
+     * 发起异步请求
+     * @param request
+     * @return
+     */
+    private static void newCallAsync(Request request) {
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                logger.error("接口请求失败！", e);
+            }
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    try {
+                        logger.warn("开始休眠5s");
+                        Thread.sleep(5000L);
+                        logger.info("休眠结束");
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    ResponseBody body = response.body();
+                    String result = body == null ? null : body.string();
+                    logger.info("接口请求访问成功，返回值：[{}]", result);
+                    return;
+                }
+                logger.error("接口请求失败！错误码：[{}]", response.code());
+            }
+        });
     }
 
 
