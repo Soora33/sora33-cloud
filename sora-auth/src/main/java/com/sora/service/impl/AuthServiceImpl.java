@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
 
     /**
      * 登陆
-     * @paramk name
+     * @param name
      * @param password
      * @return
      */
