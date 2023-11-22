@@ -1,7 +1,7 @@
 package com.sora.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sora.domain.user.Employee;
+import com.sora.domain.User;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
  * @Author by Sora33
  */
 @Repository
-public interface UserMapper extends BaseMapper<Employee> {
+public interface UserMapper extends BaseMapper<User> {
 }

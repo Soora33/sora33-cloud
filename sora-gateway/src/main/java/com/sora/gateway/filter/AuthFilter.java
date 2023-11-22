@@ -22,6 +22,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @description: 鉴权过滤器
@@ -64,16 +65,16 @@ public class AuthFilter implements GlobalFilter, Ordered {
         // header操作对象
         ServerHttpRequest.Builder mutate = request.mutate();
         String url = request.getURI().getPath();
-        // 跳过不需要验证的路径
-        if (GatewayUtil.containsSubstring(ignore,url)) {
-            return chain.filter(exchange);
-        }
         // 判断是否是万能token
         if (tokens.contains(headers.getFirst(JwtConstants.TOKEN))) {
             logger.info("正在使用万能token访问后台，token：[{}]", headers.getFirst(JwtConstants.TOKEN));
             return chain.filter(exchange);
         }
-        log.info("请求日志：uri:[{}] , 请求方式:[{}]", url, method);
+        // 跳过不需要验证的路径
+        if (GatewayUtil.containsSubstring(ignore,url)) {
+            return chain.filter(exchange);
+        }
+        logger.info("请求日志：uri:[{}] , 请求方式:[{}]", url, method);
         if (StrUtil.isBlank(headers.getFirst(JwtConstants.TOKEN))) {
             return GatewayUtil.gatewayError(exchange,"请求token为空！");
         }
@@ -85,13 +86,15 @@ public class AuthFilter implements GlobalFilter, Ordered {
             return GatewayUtil.gatewayError(exchange,"token格式错误!");
         }
         if (claims == null) {
-            return GatewayUtil.gatewayError(exchange,"令牌已过期或验证不正确!");
+            return GatewayUtil.gatewayError(exchange,"token为空!");
         }
         String userId = JwtUtils.getUserId(claims);
         boolean isLogin = redisUtil.hasKey(JwtConstants.TOKEN_USER_PREFIX + userId);
         if (!isLogin) {
             return GatewayUtil.gatewayError(exchange,"登陆状态已过期!");
         }
+        // 令牌通过，重制过期时间
+        redisUtil.set(JwtConstants.TOKEN_USER_PREFIX + userId, token,30, TimeUnit.MINUTES);
         return chain.filter(exchange);
     }
     @Override

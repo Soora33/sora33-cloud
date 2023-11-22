@@ -2,10 +2,14 @@ package com.sora.service.impl;
 
 import com.sora.constant.JwtConstants;
 import com.sora.domain.User;
+import com.sora.feign.UserFeign;
 import com.sora.redis.util.RedisUtil;
 import com.sora.result.Result;
 import com.sora.service.AuthService;
 import com.sora.utils.JwtUtils;
+import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -20,8 +24,12 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class AuthServiceImpl implements AuthService {
 
+    private final static Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
 
     private final RedisUtil redisUtil;
+
+    @Resource
+    private UserFeign userFeign;
 
     public AuthServiceImpl(RedisUtil redisUtil) {
         this.redisUtil = redisUtil;
@@ -29,26 +37,33 @@ public class AuthServiceImpl implements AuthService {
 
     /**
      * 登陆
-     * @param userId
+     * @paramk name
      * @param password
      * @return
      */
     @Override
-    public Result selectUserById(String userId, String password) {
-        // 从数据库中根据UserId获取用户
-
-        // 对密码进行解密匹配
-
-        // 生成Jwt
-        User user = new User(1L, "张三", 29);
+    public Result login(String name, String password) {
+        User user = userFeign.login(name, password).getData();
+        // 创建token并存入redis
         HashMap<String, Object> claimsMap = new HashMap<>() {{
-            put(JwtConstants.USER_ID, user.getUserId());
+            put(JwtConstants.USER_ID, user.getId());
             put(JwtConstants.USER_NAME, user.getName());
         }};
         String token = JwtUtils.createToken(claimsMap);
         // 存入redis，设置过期时间
-        redisUtil.set(JwtConstants.TOKEN_USER_PREFIX + userId, token, 30, TimeUnit.MINUTES);
-        // 返回
+        redisUtil.set(JwtConstants.TOKEN_USER_PREFIX + user.getId(), token, 30, TimeUnit.MINUTES);
+        logger.info("[登陆日志]：用户[{}]登陆成功", user.getName());
         return Result.success("登陆成功");
+    }
+
+
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
+    @Override
+    public Result register(User user) {
+        return userFeign.register(user);
     }
 }

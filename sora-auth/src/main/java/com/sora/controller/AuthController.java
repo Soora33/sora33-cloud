@@ -1,16 +1,13 @@
 package com.sora.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.sora.domain.User;
 import com.sora.result.Result;
 import com.sora.service.AuthService;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.PropertySource;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 
 /**
  * @Classname AuthController
@@ -27,44 +24,26 @@ public class AuthController {
     @Resource
     private AuthService authService;
     
-    @Resource
-    private ConfigurableEnvironment configurableEnvironment;
-
-
     /**
      * login
-     * @param userId
+     * @param name
      * @param password
      * @return
      */
     @SentinelResource(value = "login")
-    @GetMapping("/login/{userId}/{password}")
-    public Result selectUserById(@PathVariable("userId") String userId, @PathVariable("password") String password) {;
-        PropertySource<?> propertySource = configurableEnvironment.getPropertySources().get("sora-data-properties");
-        logger.info("自定义属性值：[{}]", propertySource.getProperty("sora.name"));
-        authService.selectUserById(userId, password);
-        return Result.success("SUCCESS");
+    @GetMapping("/login/{name}/{password}")
+    public Result login(@PathVariable("name") String name, @PathVariable("password") String password) {
+        return authService.login(name,password);
     }
 
-
-    @SentinelResource(value = "updateUser")
-    @PostMapping("/update")
-    public Result updateUser(@org.springframework.web.bind.annotation.RequestBody HashMap<String, Object> hashMap) {
-        System.out.println(hashMap);
-        System.out.println("我是updateUser接口");
-        return Result.success("SUCCESS");
-    }
-
-
-    @SentinelResource(value = "exception")
-    @PostMapping("/exception")
-    public Result exception() {
-        try {
-            Thread.sleep(500L);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        return Result.success("SUCCESS");
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
+    @PostMapping("/register")
+    public Result register(@RequestBody User user) {
+        return authService.register(user);
     }
 
 }

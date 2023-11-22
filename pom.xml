@@ -45,6 +45,8 @@
         <java-servlet.version>6.0.0</java-servlet.version>
         <sentinel-datasource.version>1.8.6</sentinel-datasource.version>
         <okhttp.version>4.11.0</okhttp.version>
+        <elasticsearch.version>7.17.0</elasticsearch.version>
+        <fastjson.version>2.0.41</fastjson.version>
     </properties>
 
     <dependencyManagement>
@@ -145,11 +147,23 @@
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
+            <!--json2-->
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
             <!--hutools-->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutools.version}</version>
+            </dependency>
+            <!--elasticSearch-->
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${elasticsearch.version}</version>
             </dependency>
             <!--validation-->
             <dependency>
@@ -205,6 +219,7 @@
                 <artifactId>okhttp</artifactId>
                 <version>${okhttp.version}</version>
             </dependency>
+
             <!--logback-->
             <dependency>
                 <groupId>ch.qos.logback</groupId>

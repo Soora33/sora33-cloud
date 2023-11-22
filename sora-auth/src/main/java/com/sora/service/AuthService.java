@@ -1,5 +1,6 @@
 package com.sora.service;
 
+import com.sora.domain.User;
 import com.sora.result.Result;
 
 /**
@@ -12,9 +13,16 @@ public interface AuthService {
 
     /**
      * 登陆
-     * @param userId
+     * @param name
      * @param password
      * @return
      */
-    Result selectUserById(String userId, String password);
+    Result login(String name, String password);
+
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
+    Result register(User user);
 }

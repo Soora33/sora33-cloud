@@ -136,7 +136,7 @@ public class ExcelUtils {
      * 下载文件
      * @param filePath
      */
-    public static void downloadExcel(String filePath) {
+    public static void downloadFile(String filePath) {
         File file = new File(filePath);
 
         // 获取文件名字 默认为最后一个/后的部分

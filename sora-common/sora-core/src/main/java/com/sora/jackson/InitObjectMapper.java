@@ -1,6 +1,6 @@
 package com.sora.jackson;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +18,8 @@ public class InitObjectMapper {
     @Bean(name = "ObjectMapperService")
     public static ObjectMapper initObjectMapper() {
         // 序列化时忽略空字段
-        return Handler.INSTANCE.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        return Handler.INSTANCE
+                .configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
     }
 }
