@@ -7,7 +7,6 @@ import com.sora.redis.util.RedisUtil;
 import com.sora.result.Result;
 import com.sora.service.AuthService;
 import com.sora.utils.JwtUtils;
-import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,11 +27,11 @@ public class AuthServiceImpl implements AuthService {
 
     private final RedisUtil redisUtil;
 
-    @Resource
-    private UserFeign userFeign;
+    private final UserFeign userFeign;
 
-    public AuthServiceImpl(RedisUtil redisUtil) {
+    public AuthServiceImpl(RedisUtil redisUtil,UserFeign userFeign) {
         this.redisUtil = redisUtil;
+        this.userFeign = userFeign;
     }
 
     /**

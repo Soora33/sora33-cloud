@@ -8,7 +8,6 @@ import com.sora.domain.User;
 import com.sora.mapper.UserMapper;
 import com.sora.result.Result;
 import com.sora.service.UserService;
-import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,14 +29,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    @Resource
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
+    public UserServiceImpl(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
+
+    /**
+     * 查询用户
+     * @return
+     */
     @Override
     public Result select() {
         return Result.success(userMapper.selectList(new QueryWrapper<>()));
     }
 
+
+    /**
+     * 新增用户
+     * @param user
+     * @return
+     */
     @Override
     public Result insert(User user) {
         // 判断是否重复名字
@@ -55,6 +68,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
 
+    /**
+     * 登陆
+     * @param name
+     * @param password
+     * @return
+     */
     @Override
     public Result login(String name, String password) {
         // 根据name获取用户
@@ -65,7 +84,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         // 密码验证
         if (bCryptPasswordEncoder.matches(password + UserConstant.SLAT, user.get(0).getPassword())) {
-            return Result.success(user,"登陆成功！");
+            return Result.success(user.get(0),"登陆成功！");
         }
         return Result.error("密码错误！");
     }

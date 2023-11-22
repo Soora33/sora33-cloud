@@ -21,11 +21,14 @@ import java.util.List;
 public class UserController {
 
 
-    @Resource
-    private UserService userService;
+    private final UserService userService;
 
     @Resource(name = "ObjectMapperService")
     private ObjectMapper objectMapperService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
 
     /**
