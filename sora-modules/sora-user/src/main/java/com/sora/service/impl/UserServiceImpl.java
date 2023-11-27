@@ -64,7 +64,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setPassword(pwd);
         user.setId(IdUtil.getSnowflakeNextIdStr());
         user.setCreateTime(new Date());
-        return userMapper.insert(user) > 0 ? Result.success("注册成功！") : Result.error("注册失败，请稍后重试！");
+        return userMapper.insert(user) > 0 ? Result.success(null,"注册成功！") : Result.error("注册失败，请稍后重试！");
     }
 
 

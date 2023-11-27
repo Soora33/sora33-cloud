@@ -1,6 +1,7 @@
 package com.sora.service.impl;
 
 import com.sora.constant.JwtConstants;
+import com.sora.constant.LogConstants;
 import com.sora.domain.User;
 import com.sora.feign.UserFeign;
 import com.sora.redis.util.RedisUtil;
@@ -42,7 +43,11 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public Result login(String name, String password) {
-        User user = userFeign.login(name, password).getData();
+        Result<User> responseUser = userFeign.login(name, password);
+        if (responseUser.getCode() != 200) {
+            return responseUser;
+        }
+        User user = responseUser.getData();
         // 创建token并存入redis
         HashMap<String, Object> claimsMap = new HashMap<>() {{
             put(JwtConstants.USER_ID, user.getId());
@@ -51,8 +56,8 @@ public class AuthServiceImpl implements AuthService {
         String token = JwtUtils.createToken(claimsMap);
         // 存入redis，设置过期时间
         redisUtil.set(JwtConstants.TOKEN_USER_PREFIX + user.getId(), token, 30, TimeUnit.MINUTES);
-        logger.info("[登陆日志]：用户[{}]登陆成功", user.getName());
-        return Result.success("登陆成功");
+        logger.info("{}：用户[{}]登陆成功", LogConstants.LOGIN_LOG, user.getName());
+        return Result.success(null,"登陆成功");
     }
 
 

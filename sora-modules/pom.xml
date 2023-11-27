@@ -16,6 +16,7 @@
     <modules>
         <module>sora-system</module>
         <module>sora-user</module>
+        <module>sora-spider</module>
     </modules>
 
 

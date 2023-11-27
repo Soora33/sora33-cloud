@@ -17,6 +17,7 @@
         <module>sora-redis</module>
         <module>sora-datasource</module>
         <module>sora-core</module>
+        <module>sora-swagger</module>
     </modules>
 
 </project>

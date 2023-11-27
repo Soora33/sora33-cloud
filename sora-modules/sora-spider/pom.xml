@@ -5,20 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.sora</groupId>
-        <artifactId>sora33-cloud</artifactId>
+        <artifactId>sora-modules</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>sora-gateway</artifactId>
-    <description>网关</description>
+    <artifactId>sora-spider</artifactId>
 
     <dependencies>
-
-        <!-- SpringCloud Gateway -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
-        </dependency>
 
         <!-- SpringCloud Alibaba Nacos -->
         <dependency>
@@ -32,24 +25,24 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-        <!--redis-->
+        <dependency>
+            <groupId>com.sora</groupId>
+            <artifactId>sora-datasource</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sora</groupId>
+            <artifactId>sora-core</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.sora</groupId>
             <artifactId>sora-redis</artifactId>
         </dependency>
 
-        <!--core-->
         <dependency>
-            <groupId>com.sora</groupId>
-            <artifactId>sora-core</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.sora</groupId>
-                    <artifactId>sora-swagger</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
         </dependency>
     </dependencies>
-
-
 </project>

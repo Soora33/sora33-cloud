@@ -53,5 +53,5 @@ public class JwtConstants
     /**
      * redis中保存用户token的前缀
      */
-    public static final String TOKEN_USER_PREFIX = "TOKEN_user_";
+    public static final String TOKEN_USER_PREFIX = "TOKEN_user:";
 }
