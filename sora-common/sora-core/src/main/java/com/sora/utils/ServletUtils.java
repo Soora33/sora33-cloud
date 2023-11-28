@@ -2,11 +2,16 @@ package com.sora.utils;
 
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
+import com.sora.constant.LogConstants;
 import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -24,6 +29,9 @@ import java.util.Map;
  * @author ruoyi
  */
 public class ServletUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(ServletUtils.class);
+
     /**
      * 获取String参数
      */
@@ -158,5 +166,24 @@ public class ServletUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static String getCookie(String cookieName) {
+        if (StrUtil.isBlank(cookieName)) {
+            return null;
+        }
+        try {
+            Cookie[] cookies = getRequest().getCookies();
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(cookieName)) {
+                    return cookie.getValue();
+                }
+            }
+        } catch (Exception e) {
+            logger.error("{}，获取cookie失败！", LogConstants.ERROR_LOG);
+            return null;
+        }
+        return null;
     }
 }

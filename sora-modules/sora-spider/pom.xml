@@ -41,6 +41,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.sora</groupId>
+            <artifactId>sora-log</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
         </dependency>

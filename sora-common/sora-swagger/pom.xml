@@ -12,11 +12,6 @@
     <artifactId>sora-swagger</artifactId>
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>org.springdoc</groupId>-->
-<!--            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springdoc</groupId>

@@ -1,0 +1,34 @@
+package com.sora.service.impl;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sora.mapper.UserLogMapper;
+import com.sora.result.Result;
+import com.sora.service.UserLogService;
+import com.sora.user.UserLog;
+import org.springframework.stereotype.Service;
+
+/**
+ * @Classname UserLogServiceImpl
+ * @Description
+ * @Date 2023/11/28 13:17
+ * @Author by Sora33
+ */
+@Service
+public class UserLogServiceImpl extends ServiceImpl<UserLogMapper, UserLog> implements UserLogService {
+
+    private final UserLogMapper userLogMapper;
+
+    public UserLogServiceImpl(UserLogMapper userLogMapper) {
+        this.userLogMapper = userLogMapper;
+    }
+
+    /**
+     * 保存用户操作日志
+     * @param userLog
+     * @return
+     */
+    @Override
+    public Result insert(UserLog userLog) {
+        return userLogMapper.insert(userLog) > 0 ? Result.success() : Result.error();
+    }
+}

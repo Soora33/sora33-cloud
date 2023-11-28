@@ -279,6 +279,12 @@
                 <artifactId>sora-swagger</artifactId>
                 <version>${sora.version}</version>
             </dependency>
+            <!--sora-log-->
+            <dependency>
+                <groupId>com.sora</groupId>
+                <artifactId>sora-log</artifactId>
+                <version>${sora.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

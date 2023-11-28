@@ -27,13 +27,6 @@ public class AuthController {
     @Resource
     private AuthService authService;
 
-    /**
-     * login
-     *
-     * @param name
-     * @param password
-     * @return
-     */
 //    @SentinelResource(value = "login")
     @Operation(summary = "登陆", description = "通过用户名与密码登陆")
     @GetMapping("/login/{name}/{password}")
@@ -42,11 +35,7 @@ public class AuthController {
         return authService.login(name, password);
     }
 
-    /**
-     * 注册
-     * @param user
-     * @return
-     */
+//    @UserLogAnno()
     @Operation(summary = "注册", description = "注册用户")
     @PostMapping("/register")
     public Result register(@Parameter(description = "用户") @RequestBody User user) {

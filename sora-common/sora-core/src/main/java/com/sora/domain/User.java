@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -42,6 +43,7 @@ public class User {
      */
     @Schema(description = "出生日期")
     @Excel(name = "出生日期")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
     /**
      * 密码
@@ -70,6 +72,7 @@ public class User {
      */
     @Schema(description = "创建时间")
     @Excel(name = "创建时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
     /**
      * 是否被封禁

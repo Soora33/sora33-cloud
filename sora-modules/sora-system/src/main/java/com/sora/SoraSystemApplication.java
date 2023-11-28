@@ -1,4 +1,4 @@
-package com.sora.system;
+package com.sora;
 
 import com.sora.anno.SoraCloudConfig;
 import org.springframework.boot.SpringApplication;

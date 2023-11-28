@@ -2,6 +2,7 @@ package com.sora.anno;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.lang.annotation.ElementType;
@@ -20,5 +21,6 @@ import java.lang.annotation.Target;
 @ComponentScan(basePackages = {"com.sora.**"})
 @EnableFeignClients
 @EnableAsync
+@EnableAspectJAutoProxy(exposeProxy = true)
 public @interface SoraCloudConfig {
 }

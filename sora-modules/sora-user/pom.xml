@@ -41,6 +41,11 @@
             <artifactId>sora-redis</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.sora</groupId>
+            <artifactId>sora-log</artifactId>
+        </dependency>
+
     </dependencies>
 
 

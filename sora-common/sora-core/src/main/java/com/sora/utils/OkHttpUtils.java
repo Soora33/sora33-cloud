@@ -293,13 +293,6 @@ public class OkHttpUtils {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    try {
-                        logger.warn("开始休眠5s");
-                        Thread.sleep(5000L);
-                        logger.info("休眠结束");
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
                     ResponseBody body = response.body();
                     String result = body == null ? null : body.string();
                     logger.info("接口请求访问成功，返回值：[{}]", result);
