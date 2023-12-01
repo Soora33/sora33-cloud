@@ -3,7 +3,6 @@ package com.sora.controller;
 import com.sora.result.Result;
 import com.sora.service.UserLogService;
 import com.sora.user.UserLog;
-import com.sora.utils.ServiceLink;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,17 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserLogController {
 
     private final UserLogService userLogService;
-    private final ServiceLink serviceLink;
 
-    public UserLogController(UserLogService userLogService, ServiceLink serviceLink) {
+    public UserLogController(UserLogService userLogService) {
         this.userLogService = userLogService;
-        this.serviceLink = serviceLink;
     }
 
     @Operation(summary = "保存用户操作日志")
     @PostMapping("/insert")
     public Result insert(@RequestBody UserLog userLog) {
-        serviceLink.test("sora-user","/user/select");
         return userLogService.insert(userLog);
     }
 }

@@ -6,8 +6,10 @@ import com.sora.domain.User;
 import com.sora.result.Result;
 import com.sora.service.UserService;
 import com.sora.utils.excel.ExcelUtils;
+import com.xxl.job.core.handler.annotation.XxlJob;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +22,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/user")
+@Tag(name="userController", description = "用户控制器")
 public class UserController {
-
 
     private final UserService userService;
 
@@ -32,13 +34,14 @@ public class UserController {
 
     @Operation(summary = "登陆", description = "通过用户名与密码登陆")
     @GetMapping("select/{name}/{password}")
-    public Result selectUserList(@Parameter(name = "用户名") @PathVariable("name") String name,
-                                 @Parameter(name = "密码") @PathVariable("password") String password) {
+    public Result selectUserList(@Parameter(description = "用户名") @PathVariable("name") String name,
+                                 @Parameter(description = "密码") @PathVariable("password") String password) {
         // 从数据库获取所有用户
         return userService.login(name,password);
     }
 
 
+    @XxlJob("select")
     @UserLogAnno(type = UserLogConstants.SELECT)
     @Operation(summary = "查询所有用户", description = "查找目前用户表内的所有用户")
     @GetMapping("select")
@@ -50,7 +53,7 @@ public class UserController {
 
     @Operation(summary = "插入用户", description = "向用户表插入一条数据")
     @PostMapping("insert")
-    public Result selectUserList(@Parameter(name = "用户") @RequestBody User user) {
+    public Result selectUserList(@Parameter(description = "用户") @RequestBody User user) {
         // 从数据库获取所有用户
         return userService.insert(user);
     }

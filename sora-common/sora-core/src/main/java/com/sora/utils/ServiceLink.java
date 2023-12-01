@@ -16,16 +16,26 @@ import java.util.HashMap;
 @Component
 public class ServiceLink {
 
-    public void test(String serviceName, String path) {
+    private final HashMap<String, String> headerMap = new HashMap<>() {{
+        put("token", "123");
+    }};
+
+
+    public String serviceLink(String serviceName, String path, boolean isGet) {
+        // 获取到对应微服务信息
         LoadBalancerClient loadBalancerClient = SpringUtil.getBean(LoadBalancerClient.class);
         ServiceInstance serviceInstance = loadBalancerClient.choose(serviceName);
         String host = serviceInstance.getHost();
         int port = serviceInstance.getPort();
+        // 拼接请求url
         String url = "http://" + host + ":" + port + path;
-        String response = OkHttpUtils.get(url, new HashMap<>() {{
-            put("token", "123");
-        }});
+        String response;
+        if (isGet) {
+            response = OkHttpUtils.get(url, null, headerMap);
+        } else {
+            response = OkHttpUtils.post(url, null, headerMap);;
+        }
+        return response;
 
-        System.out.println(response);
     }
 }

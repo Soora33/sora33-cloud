@@ -310,7 +310,7 @@ public class OkHttpUtils {
      * @return
      */
     private static String getParam(Map<String, Object> paramMap) {
-        if (paramMap.isEmpty()) {
+        if (paramMap == null || paramMap.isEmpty()) {
             return "";
         }
         StringBuffer sb = new StringBuffer();

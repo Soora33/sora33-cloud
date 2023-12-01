@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -264,6 +265,22 @@ public final class RedisUtil {
       e.printStackTrace();
       return false;
     }
+  }
+
+  /**
+     * 获取对应key的所有hash键
+     *
+     * @param key   键
+     * @return true 成功 false失败
+     */
+  public LinkedHashSet<Object> hgetAllAkey(String key) {
+    LinkedHashSet<Object> set = new LinkedHashSet<>();
+    try {
+      set = (LinkedHashSet<Object>) redisTemplate.opsForHash().keys(key);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return set;
   }
 
   /**

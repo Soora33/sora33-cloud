@@ -1,12 +1,13 @@
 package com.sora.controller;
 
+import com.sora.anno.UserLogAnno;
+import com.sora.constants.UserLogConstants;
 import com.sora.domain.User;
 import com.sora.result.Result;
 import com.sora.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +25,14 @@ public class AuthController {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-    @Resource
-    private AuthService authService;
+    private final AuthService authService;
 
-//    @SentinelResource(value = "login")
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    //    @SentinelResource(value = "login")
+    @UserLogAnno(type = UserLogConstants.SELECT)
     @Operation(summary = "登陆", description = "通过用户名与密码登陆")
     @GetMapping("/login/{name}/{password}")
     public Result login(@Parameter(description = "用户名") @PathVariable("name") String name,
@@ -35,7 +40,6 @@ public class AuthController {
         return authService.login(name, password);
     }
 
-//    @UserLogAnno()
     @Operation(summary = "注册", description = "注册用户")
     @PostMapping("/register")
     public Result register(@Parameter(description = "用户") @RequestBody User user) {
