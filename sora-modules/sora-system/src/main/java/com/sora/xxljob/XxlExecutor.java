@@ -33,6 +33,7 @@ public class XxlExecutor {
 
     @XxlJob("soraXxl")
     public void xxlHandler() {
+        // 获取参数
         String jobParam = XxlJobHelper.getJobParam();
         try {
             JsonNode jsonNode = objectMapper.readTree(jobParam);
