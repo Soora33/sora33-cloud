@@ -1,9 +1,9 @@
 package com.sora.service.impl;
 
+import com.sora.UserFeign;
 import com.sora.constant.JwtConstants;
 import com.sora.constant.LogConstants;
 import com.sora.domain.User;
-import com.sora.feign.UserFeign;
 import com.sora.redis.util.RedisUtil;
 import com.sora.result.Result;
 import com.sora.service.AuthService;
@@ -32,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserFeign userFeign;
 
-    public AuthServiceImpl(RedisUtil redisUtil,UserFeign userFeign) {
+    public AuthServiceImpl(RedisUtil redisUtil, UserFeign userFeign) {
         this.redisUtil = redisUtil;
         this.userFeign = userFeign;
     }

@@ -10,40 +10,9 @@
     </parent>
 
     <artifactId>sora-system</artifactId>
-
-    <dependencies>
-
-        <!-- SpringCloud Alibaba Nacos -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-
-        <!-- SpringCloud Alibaba Nacos Config -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sora</groupId>
-            <artifactId>sora-datasource</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sora</groupId>
-            <artifactId>sora-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sora</groupId>
-            <artifactId>sora-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sora</groupId>
-            <artifactId>sora-log</artifactId>
-        </dependency>
-    </dependencies>
-
+    <packaging>pom</packaging>
+    <modules>
+        <module>system-feign</module>
+        <module>system-server</module>
+    </modules>
 </project>

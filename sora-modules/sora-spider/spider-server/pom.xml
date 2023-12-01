@@ -5,15 +5,19 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.sora</groupId>
-        <artifactId>sora33-cloud</artifactId>
+        <artifactId>sora-spider</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>sora-auth</artifactId>
-    <description>鉴权服务</description>
+    <artifactId>spider-server</artifactId>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
-
         <!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -28,12 +32,12 @@
 
         <dependency>
             <groupId>com.sora</groupId>
-            <artifactId>sora-core</artifactId>
+            <artifactId>sora-datasource</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.sora</groupId>
-            <artifactId>sora-datasource</artifactId>
+            <artifactId>sora-core</artifactId>
         </dependency>
 
         <dependency>
@@ -47,11 +51,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sora</groupId>
-            <artifactId>user-feign</artifactId>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
         </dependency>
-
     </dependencies>
-
 
 </project>

@@ -1,4 +1,4 @@
-package com.sora.feign;
+package com.sora;
 
 import com.sora.domain.User;
 import com.sora.result.Result;

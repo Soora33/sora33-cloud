@@ -292,6 +292,13 @@
                 <artifactId>sora-log</artifactId>
                 <version>${sora.version}</version>
             </dependency>
+
+            <!--feign-->
+            <dependency>
+                <groupId>com.sora</groupId>
+                <artifactId>user-feign</artifactId>
+                <version>${sora.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
