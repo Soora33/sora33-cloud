@@ -32,7 +32,7 @@ public class XxlExecutor {
     private ServiceLink serviceLink;
 
     @XxlJob("soraXxl")
-    private void xxlHandler() {
+    public void xxlHandler() {
         String jobParam = XxlJobHelper.getJobParam();
         try {
             JsonNode jsonNode = objectMapper.readTree(jobParam);
@@ -50,8 +50,7 @@ public class XxlExecutor {
             // 设置返回值
             XxlJobHelper.handleSuccess(result.toString());
         } catch (JsonProcessingException e) {
-            logger.error("{}，xxl执行任务出错！", LogConstants.ERROR_LOG);
-            throw new RuntimeException(e);
+            logger.error("{}，xxl执行任务出错！", LogConstants.ERROR_LOG, e);
         }
     }
 
