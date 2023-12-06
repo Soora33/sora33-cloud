@@ -1,11 +1,11 @@
-package com.sora.gateway.filter;
+package com.sora.filter;
 
 
 import cn.hutool.core.util.StrUtil;
+import com.sora.config.IgnoreWhiteConfig;
 import com.sora.constant.JwtConstants;
-import com.sora.gateway.config.IgnoreWhiteConfig;
-import com.sora.gateway.util.GatewayUtil;
 import com.sora.redis.util.RedisUtil;
+import com.sora.util.GatewayUtil;
 import com.sora.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.log4j.Log4j2;
@@ -63,7 +63,6 @@ public class AuthFilter implements GlobalFilter, Ordered {
         // 获取请求方式
         HttpMethod method = request.getMethod();
         // header操作对象
-        ServerHttpRequest.Builder mutate = request.mutate();
         String url = request.getURI().getPath();
         // 判断是否是万能token
         if (tokens.contains(headers.getFirst(JwtConstants.TOKEN))) {

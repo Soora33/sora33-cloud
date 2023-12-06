@@ -1,4 +1,4 @@
-package com.sora.gateway.config;
+package com.sora.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

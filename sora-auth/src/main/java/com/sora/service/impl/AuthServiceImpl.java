@@ -8,8 +8,6 @@ import com.sora.redis.util.RedisUtil;
 import com.sora.result.Result;
 import com.sora.service.AuthService;
 import com.sora.utils.JwtUtils;
-import com.sora.utils.ServletUtils;
-import jakarta.servlet.http.Cookie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -59,12 +57,12 @@ public class AuthServiceImpl implements AuthService {
         // 存入redis，设置过期时间
         redisUtil.set(JwtConstants.TOKEN_USER_PREFIX + user.getId(), token, 30, TimeUnit.MINUTES);
         logger.info("{}：用户[{}]登陆成功", LogConstants.LOGIN_LOG, user.getName());
-        // 保存到cookie
-        Cookie cookie = new Cookie("userId", user.getId());
-        // 有效期为半小时
-        cookie.setMaxAge(1800);
-        cookie.setPath("/");
-        ServletUtils.getResponse().addCookie(cookie);
+//        // 保存到cookie
+//        Cookie cookie = new Cookie("token", token);
+//        // 有效期为半小时
+//        cookie.setMaxAge(1800);
+//        cookie.setPath("/");
+//        ServletUtils.getResponse().addCookie(cookie);
         return Result.success(null,"登陆成功");
     }
 

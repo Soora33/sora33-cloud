@@ -3,6 +3,7 @@ package com.sora.utils;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
+import com.sora.constant.JwtConstants;
 import com.sora.constant.LogConstants;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.Cookie;
@@ -185,5 +186,15 @@ public class ServletUtils {
             return null;
         }
         return null;
+    }
+
+
+    public static String getUserIdByToken() {
+        String token = getRequest().getHeader(JwtConstants.TOKEN);
+        // 对特殊token做处理
+        if ("123".equals(token)) {
+            return "0";
+        }
+        return JwtUtils.getUserId(token);
     }
 }

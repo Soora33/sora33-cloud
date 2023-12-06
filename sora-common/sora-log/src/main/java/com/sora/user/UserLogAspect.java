@@ -57,10 +57,9 @@ public class UserLogAspect {
                 // 获取当前用户id
                 UserLogAnno userLogAnno = method.getAnnotation(UserLogAnno.class);
                 Class<?> servletUtils = Class.forName("com.sora.utils.ServletUtils");
-                Object serInstance = servletUtils.newInstance();
-                Method getUser = servletUtils.getDeclaredMethod("getCookie", String.class);
-                Object userId = getUser.invoke(serInstance, "userId");
-
+                Object servletUtilInstance = servletUtils.newInstance();
+                Method getUserIdByTokenMethod = servletUtils.getDeclaredMethod("getUserIdByToken");
+                Object userId = getUserIdByTokenMethod.invoke(servletUtilInstance);
                 if (!StrUtil.isBlankIfStr(userId)) {
                     UserLog userLog = new UserLog(IdUtil.getSnowflakeNextIdStr(), userId.toString(),
                             userLogAnno.type(), className, methodName, sw.getLastTaskTimeMillis(), new Date());

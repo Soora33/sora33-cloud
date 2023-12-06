@@ -1,4 +1,4 @@
-package com.sora.gateway.util;
+package com.sora.util;
 
 import com.alibaba.fastjson.JSON;
 import com.sora.result.Result;
