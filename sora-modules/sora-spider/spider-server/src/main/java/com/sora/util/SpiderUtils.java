@@ -28,9 +28,10 @@ public class SpiderUtils {
      */
     public static Connection.Response getConnect(String url,String placeholder,String param) {
         try {
+            placeholder = placeholder == null ? "" : placeholder;
+            param = param == null ? "" : param;
             return Jsoup.
                     connect(url + placeholder + param)
-//                    .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36")
                     .userAgent(SpiderConstant.USER_AGENT.get(new Random().nextInt(SpiderConstant.USER_AGENT.size())))
                     .ignoreContentType(true)
                     .timeout(100000)

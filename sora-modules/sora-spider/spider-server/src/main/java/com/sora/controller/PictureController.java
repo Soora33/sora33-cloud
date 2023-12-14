@@ -4,7 +4,6 @@ import com.sora.anno.UserLogAnno;
 import com.sora.constants.UserLogConstants;
 import com.sora.result.Result;
 import com.sora.service.PictureService;
-import com.sora.util.SpiderUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,13 +32,10 @@ public class PictureController {
      * @param param
      * @return
      */
-    @UserLogAnno(type = UserLogConstants.SELECT)
+    @UserLogAnno(type = UserLogConstants.SELECT, description = "爬取图片")
     @Operation(summary = "爬取图片", description = "根据参数爬取对应图片")
     @GetMapping("select/{param}")
     public Result select(@Parameter(description = "图片英文名") @PathVariable("param") String param) {
-        if (!SpiderUtils.isValidInput(param)) {
-            return Result.error("仅支持英文查找！");
-        }
         return pictureService.select(param);
     }
 }
