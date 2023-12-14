@@ -46,32 +46,29 @@ public class UserLogAspect {
             sw.start();
             Object result = proceedingJoinPoint.proceed();
             sw.stop();
-            Class<?> forName = Class.forName("com.sora.result.Result");
-            if (forName.isInstance(result)) {
-                MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
-                Method method = signature.getMethod();
-                // 方法名
-                String methodName = method.getName();
-                // 类名
-                String className = proceedingJoinPoint.getTarget().getClass().getName();
-                // 获取当前用户id
-                UserLogAnno userLogAnno = method.getAnnotation(UserLogAnno.class);
-                Class<?> servletUtils = Class.forName("com.sora.utils.ServletUtils");
-                Object servletUtilInstance = servletUtils.newInstance();
-                Method getUserIdByTokenMethod = servletUtils.getDeclaredMethod("getUserIdByToken");
-                Object userId = getUserIdByTokenMethod.invoke(servletUtilInstance);
-                if (!StrUtil.isBlankIfStr(userId)) {
-                    UserLog userLog = new UserLog(IdUtil.getSnowflakeNextIdStr(), userId.toString(),
-                            userLogAnno.type(), className, methodName, sw.getLastTaskTimeMillis(), new Date());
-                    // 加入到日志表
-                    userLogFeign.insert(userLog);
-                }
-                return result;
+            MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
+            Method method = signature.getMethod();
+            // 方法名
+            String methodName = method.getName();
+            // 类名
+            String className = proceedingJoinPoint.getTarget().getClass().getName();
+            // 获取当前用户id
+            UserLogAnno userLogAnno = method.getAnnotation(UserLogAnno.class);
+            Class<?> servletUtils = Class.forName("com.sora.utils.ServletUtils");
+            Object servletUtilInstance = servletUtils.newInstance();
+            Method getUserIdByTokenMethod = servletUtils.getDeclaredMethod("getUserIdByToken");
+            Object userId = getUserIdByTokenMethod.invoke(servletUtilInstance);
+            if (!StrUtil.isBlankIfStr(userId)) {
+                UserLog userLog = new UserLog(IdUtil.getSnowflakeNextIdStr(), userId.toString(),
+                        userLogAnno.type(), className, methodName, userLogAnno.description(), sw.getLastTaskTimeMillis(), new Date());
+                // 加入到日志表
+                userLogFeign.insert(userLog);
             }
+            return result;
         } catch (Exception e) {
             logger.error("[错误日志],保存用户操作记录失败！", e);
         } catch (Throwable e) {
-            logger.error("[错误日志],执行用户方法运行发生异常",e);
+            logger.error("[错误日志],记录用户日志切面运行发生异常",e);
         }
         return null;
     }

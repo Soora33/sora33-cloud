@@ -44,6 +44,10 @@ public class UserLog implements Serializable {
      */
     private String methodName;
     /**
+     * 方法描述
+     */
+    private String description;
+    /**
      * 方法执行耗时/毫秒
      */
     private Long methodTime;

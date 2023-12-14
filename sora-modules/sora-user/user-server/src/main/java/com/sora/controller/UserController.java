@@ -6,7 +6,6 @@ import com.sora.domain.User;
 import com.sora.result.Result;
 import com.sora.service.UserService;
 import com.sora.utils.excel.ExcelUtils;
-import com.xxl.job.core.handler.annotation.XxlJob;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,8 +40,7 @@ public class UserController {
     }
 
 
-    @XxlJob("select")
-    @UserLogAnno(type = UserLogConstants.SELECT)
+    @UserLogAnno(type = UserLogConstants.SELECT, description = "查询所有用户")
     @Operation(summary = "查询所有用户", description = "查找目前用户表内的所有用户")
     @GetMapping("select")
     public Result selectUserList() {

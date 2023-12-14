@@ -31,8 +31,8 @@ public class AuthController {
         this.authService = authService;
     }
 
-    //    @SentinelResource(value = "login")
-    @UserLogAnno(type = UserLogConstants.SELECT)
+
+    @UserLogAnno(type = UserLogConstants.SELECT, description = "登陆")
     @Operation(summary = "登陆", description = "通过用户名与密码登陆")
     @GetMapping("/login/{name}/{password}")
     public Result login(@Parameter(description = "用户名") @PathVariable("name") String name,

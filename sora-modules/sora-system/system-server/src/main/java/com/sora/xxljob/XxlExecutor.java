@@ -9,7 +9,6 @@ import com.sora.result.Result;
 import com.sora.utils.ServiceLink;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
-import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -25,11 +24,13 @@ public class XxlExecutor {
 
     private final Logger logger = LoggerFactory.getLogger(XxlExecutor.class);
 
-    @Resource
-    private ObjectMapper objectMapper = InitObjectMapper.initObjectMapper();
+    private final ObjectMapper objectMapper = InitObjectMapper.initObjectMapper();
 
-    @Resource
-    private ServiceLink serviceLink;
+    private final ServiceLink serviceLink;
+
+    public XxlExecutor(ServiceLink serviceLink) {
+        this.serviceLink = serviceLink;
+    }
 
     @XxlJob("soraXxl")
     public void xxlHandler() {
