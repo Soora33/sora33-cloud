@@ -134,6 +134,12 @@
             <artifactId>xxl-job-core</artifactId>
         </dependency>
 
+        <!--pageHelper-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+
         <!--springBoot-Test-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

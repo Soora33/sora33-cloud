@@ -65,9 +65,9 @@ public class PictureLogic {
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
-        System.out.println(pictureUrlList.size());
+        logger.info("初始图片个数：{}",pictureUrlList.size());
         pictureUrlList = pictureUrlList.stream().filter(StrUtil::isNotBlank).collect(Collectors.toList());
-        System.out.println(pictureUrlList.size());
+        logger.info("图片有值个数：{}",pictureUrlList.size());
         return pictureUrlList;
     }
 

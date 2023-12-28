@@ -37,7 +37,7 @@
         <jackson.version>2.15.2</jackson.version>
         <validation.version>3.0.6</validation.version>
         <jjwt.version>0.9.1</jjwt.version>
-        <pagehelper.version>5.3.2</pagehelper.version>
+        <pagehelper.version>2.1.0</pagehelper.version>
         <lang.version>3.12.0</lang.version>
         <logback.version>1.4.7</logback.version>
         <jaxb.version>2.4.0-b180830.0359</jaxb.version>
@@ -211,7 +211,7 @@
             <!--pageHelper-->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper</artifactId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper.version}</version>
             </dependency>
             <!--easyPoi-->

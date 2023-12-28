@@ -52,6 +52,7 @@ public class XxlExecutor {
             // 设置返回值
             XxlJobHelper.handleSuccess(result.toString());
         } catch (JsonProcessingException e) {
+            XxlJobHelper.handleFail();
             logger.error("{}，xxl执行任务出错！", LogConstants.ERROR_LOG, e);
         }
     }

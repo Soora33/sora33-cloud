@@ -145,7 +145,7 @@ public class ExcelUtils {
         // 获取文件后缀，用来设置ContentType
         String fileSuffix = null;
         try {
-            fileSuffix = filePath.substring(filePath.lastIndexOf("."));
+            fileSuffix = filePath.substring(filePath.lastIndexOf(".") + 1);
         } catch (Exception e) {
             logger.error("文件没有后缀名！使用二进制进行下载");
         }

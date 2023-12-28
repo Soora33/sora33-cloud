@@ -152,6 +152,29 @@ public class OkHttpUtils {
 
 
     /**
+     * 发起post请求调用（form-data）
+     * @param URL 请求地址
+     * @param paramMap 参数map
+     * @return
+     */
+    public static String postFormData(String URL, HashMap<String, Object> paramMap,HashMap<String,String> headerMap) {
+        // 获取headers
+        Headers headers = getHeaders(headerMap);
+
+        MultipartBody.Builder data = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);
+
+        paramMap.forEach((k,v) -> {
+            data.addFormDataPart(k, v.toString());
+        });
+
+        logger.info("本次访问请求地址：[{}]，请求方式：[{}]，正在发起请求……", URL, OkHttpUtils.METHOD_POST);
+
+        Request request = getRequest(URL, headers, OkHttpUtils.METHOD_POST,data.build());
+        return newCall(request);
+    }
+
+    /**
      * 以异步方式发起post请求调用
      * @param URL 请求地址
      * @param paramMap 参数map
