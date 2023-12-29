@@ -1,5 +1,6 @@
 package com.sora.controller;
 
+import com.sora.domain.XxlJobInfo;
 import com.sora.result.Result;
 import com.sora.service.UserLogService;
 import com.sora.user.UserLog;
@@ -7,7 +8,7 @@ import com.sora.utils.XxlUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Classname UserLogController
@@ -31,22 +32,14 @@ public class UserLogController {
         return userLogService.insert(userLog);
     }
 
-    @GetMapping("/addJob")
-    public Result addJob() {
-        HashMap<String, Object> paramMap = new HashMap<>();
-        paramMap.put("JobDesc","修改任务");
-        paramMap.put("ExecutorHandler","testHandler");
-        paramMap.put("Author","sora33");
-        paramMap.put("ScheduleType","CRON");
-        paramMap.put("ScheduleConf","0/10 * * * * ?");
-        paramMap.put("GlueType","BEAN");
-        paramMap.put("ExecutorRouteStrategy","FIRST");
-        paramMap.put("MisfireStrategy","DO_NOTHING");
-        paramMap.put("ExecutorBlockStrategy","SERIAL_EXECUTION");
-        paramMap.put("TriggerStatus",0);
-        paramMap.put("JobGroup",2);
-        String string = XxlUtil.addJob(paramMap);
-        System.out.println(string);
-        return Result.success(null);
+    @GetMapping("/jobTest")
+    public Result jobTest() {
+        List<XxlJobInfo> xxlJobInfos = XxlUtil.pageList(2);
+        // 获取id为44的任务
+        XxlJobInfo jobInfo = xxlJobInfos.stream()
+                .filter(data -> data.getId() == 44)
+                .findFirst()
+                .orElse(null);
+        return Result.success(jobInfo);
     }
 }

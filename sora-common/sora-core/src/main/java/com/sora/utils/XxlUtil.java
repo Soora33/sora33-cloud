@@ -1,12 +1,19 @@
 package com.sora.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sora.domain.XxlJobInfo;
+import com.sora.jackson.InitObjectMapper;
 import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -32,8 +39,10 @@ public class XxlUtil {
     private static final String UPDATE_INFO_URL = "/jobinfo/update";
     private static final String START_URL = "/jobinfo/start";
     private static final String STOP_URL = "/jobinfo/stop";
+    private static final String PAGELIST_URL = "/jobinfo/pageList";
 
     private static HashMap<String, String> cookieMap = new HashMap<>();
+    private static final ObjectMapper objectMapper = InitObjectMapper.initObjectMapper();
 
     private static OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .connectTimeout(5L, TimeUnit.SECONDS)
@@ -43,7 +52,7 @@ public class XxlUtil {
     /**
      * 登陆
      */
-    public static void login() {
+    private static void login() {
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("userName", USER_NAME);
         paramMap.put("password", PASSWORD);
@@ -69,7 +78,7 @@ public class XxlUtil {
      *
      * @return
      */
-    public static String getCookie() {
+    private static String getCookie() {
         String cookie = cookieMap.get("cookie");
         for (int i = 0; i < 3; i++) {
             if (cookie == null) {
@@ -139,6 +148,28 @@ public class XxlUtil {
     }
 
     /**
+     * 查找调度任务列表
+     *
+     * @param
+     * @return
+     */
+    public static List<XxlJobInfo> pageList(long group) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("jobGroup", group);
+        map.put("triggerStatus", -1);
+        String response = link(xxlJobAdminAddress + PAGELIST_URL, map);
+        try {
+            String data = objectMapper.readTree(response).get("data").toString();
+            List<XxlJobInfo> xxlJobInfos = objectMapper.readValue(data, new TypeReference<List<XxlJobInfo>>() {
+            });
+            return xxlJobInfos;
+        } catch (JsonProcessingException e) {
+            logger.error("json解析错误，[xxl-job工具类]调用pageList方法发生异常！！", e);
+        }
+        return new ArrayList<>();
+    }
+
+    /**
      * 与xxlJobAdmin进行交互
      * @param url
      * @param paramMap
@@ -170,7 +201,7 @@ public class XxlUtil {
      * @param headerMap 请求头map
      * @return
      */
-    public static Response postFormDataResponse(String URL, HashMap<String, Object> paramMap,HashMap<String,String> headerMap) {
+    private static Response postFormDataResponse(String URL, HashMap<String, Object> paramMap,HashMap<String,String> headerMap) {
         // 获取headers
         Headers headers = getHeaders(headerMap);
 
