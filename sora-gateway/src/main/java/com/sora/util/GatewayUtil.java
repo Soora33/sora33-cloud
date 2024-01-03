@@ -23,7 +23,8 @@ import java.util.regex.Pattern;
 public class GatewayUtil {
     public static Mono<Void> gatewayError(ServerWebExchange exchange, String errorMsg) {
         ServerHttpResponse response = exchange.getResponse();
-        DataBuffer dataBuffer = response.bufferFactory().wrap(JSON.toJSONString(Result.error(errorMsg)).getBytes());
+        response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
+        DataBuffer dataBuffer = response.bufferFactory().wrap(JSON.toJSONString(Result.error(401,errorMsg)).getBytes());
         return response.writeWith(Mono.just(dataBuffer));
     }
 

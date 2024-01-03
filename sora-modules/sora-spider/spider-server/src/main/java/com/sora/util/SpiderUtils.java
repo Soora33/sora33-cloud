@@ -44,12 +44,12 @@ public class SpiderUtils {
     }
 
     /**
-     * 英文校验
+     * 中文校验
      * @param input
      * @return
      */
     public static boolean isValidInput(String input) {
-        // 只能包含英文和数字的正则表达式
+        // 不能包含英文和数字的正则表达式
         String regex = "^[a-zA-Z0-9]+$";
 
         // 创建 Pattern 对象
@@ -59,6 +59,6 @@ public class SpiderUtils {
         Matcher matcher = pattern.matcher(input);
 
         // 使用 find 方法进行匹配
-        return matcher.find();
+        return !matcher.find();
     }
 }

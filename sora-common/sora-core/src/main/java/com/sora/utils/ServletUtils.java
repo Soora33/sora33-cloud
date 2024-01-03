@@ -195,6 +195,9 @@ public class ServletUtils {
         if ("123".equals(token)) {
             return "0";
         }
+        if (StrUtil.isBlank(token)) {
+            return null;
+        }
         return JwtUtils.getUserId(token);
     }
 }

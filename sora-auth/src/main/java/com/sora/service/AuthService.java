@@ -25,4 +25,10 @@ public interface AuthService {
      * @return
      */
     Result register(User user);
+
+    /**
+     * 注销
+     * @return
+     */
+    Result logOut();
 }

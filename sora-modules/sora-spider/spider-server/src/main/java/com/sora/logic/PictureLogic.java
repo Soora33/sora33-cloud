@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Lists;
 import com.sora.config.SoraExecutorPool;
 import com.sora.constant.LogConstants;
+import com.sora.constant.PictureConstant;
 import com.sora.enums.PictureUrlEnums;
 import com.sora.util.SpiderUtils;
 import org.jsoup.Connection;
@@ -72,11 +73,14 @@ public class PictureLogic {
     }
 
 
-    public List<String> getHippopxData(String param) {
+    public List<String> getHippopxData(String param, int pageNum) {
 
         PictureUrlEnums wallhaven = PictureUrlEnums.HIPPOPX;
         String url = wallhaven.getUrl();
 
+        if (pageNum != 1) {
+            param += "&page=" + pageNum;
+        }
         // 获取连接
         Connection.Response connect = SpiderUtils.getConnect(url, "search?q=", param);
         String body = connect.body();
@@ -105,5 +109,21 @@ public class PictureLogic {
                 return null;
             }
         }).collect(Collectors.toList());
+    }
+
+    public int getHippopxCount(String param) {
+        PictureUrlEnums wallhaven = PictureUrlEnums.HIPPOPX;
+        String url = wallhaven.getUrl();
+        // 获取连接
+        Connection.Response connect = SpiderUtils.getConnect(url, "search?q=", param);
+        String body = connect.body();
+        // 获得所有元素
+        Document doc = Jsoup.parse(body);
+        String text = doc.select("[class=search_h1]").text();
+        try {
+            return Integer.parseInt(text.substring(text.indexOf("图片数量:") + 6));
+        } catch (Exception e) {
+            return PictureConstant.PAGE_SIZE;
+        }
     }
 }

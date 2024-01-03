@@ -8,6 +8,7 @@ import com.sora.redis.util.RedisUtil;
 import com.sora.result.Result;
 import com.sora.service.AuthService;
 import com.sora.utils.JwtUtils;
+import com.sora.utils.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -63,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
 //        cookie.setMaxAge(1800);
 //        cookie.setPath("/");
 //        ServletUtils.getResponse().addCookie(cookie);
-        return Result.success(null,"登陆成功");
+        return Result.success(token,"登陆成功");
     }
 
 
@@ -75,5 +76,17 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Result register(User user) {
         return userFeign.register(user);
+    }
+
+
+    /**
+     * 注销
+     * @return
+     */
+    @Override
+    public Result logOut() {
+        String userId = ServletUtils.getUserIdByToken();
+        redisUtil.del(JwtConstants.TOKEN_USER_PREFIX + userId);
+        return Result.success(null,"注销成功");
     }
 }

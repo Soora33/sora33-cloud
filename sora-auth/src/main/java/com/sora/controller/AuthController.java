@@ -39,6 +39,12 @@ public class AuthController {
                         @Parameter(description = "密码") @PathVariable("password") String password) {
         return authService.login(name, password);
     }
+    @UserLogAnno(description = "退出登录")
+    @Operation(summary = "注销", description = "退出登陆状态，删除redis缓存的token")
+    @GetMapping("/logOut")
+    public Result logOut() {
+        return authService.logOut();
+    }
 
     @Operation(summary = "注册", description = "注册用户")
     @PostMapping("/register")

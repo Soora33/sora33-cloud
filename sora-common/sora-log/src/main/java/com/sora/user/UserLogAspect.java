@@ -41,10 +41,11 @@ public class UserLogAspect {
      */
     @Around(value = "@annotation(com.sora.anno.UserLogAnno)")
     public Object saveUserLogToDB(ProceedingJoinPoint proceedingJoinPoint) {
+        Object result = null;
         try {
             StopWatch sw = new StopWatch();
             sw.start();
-            Object result = proceedingJoinPoint.proceed();
+            result = proceedingJoinPoint.proceed();
             sw.stop();
             MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
             Method method = signature.getMethod();
@@ -70,6 +71,6 @@ public class UserLogAspect {
         } catch (Throwable e) {
             logger.error("[错误日志],记录用户日志切面运行发生异常",e);
         }
-        return null;
+        return result;
     }
 }

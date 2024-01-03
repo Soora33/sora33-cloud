@@ -29,14 +29,16 @@ public class PictureController {
 
     /**
      * 根据参数返回对应图片集合
+     * @param pageNum
      * @param param
      * @return
      */
     @UserLogAnno(type = UserLogConstants.SELECT, description = "爬取图片")
     @Operation(summary = "爬取图片", description = "根据参数爬取对应图片")
-    @GetMapping("select/{param}")
-    public Result select(@Parameter(description = "图片英文名") @PathVariable("param") String param) {
-        return pictureService.select(param);
+    @GetMapping("select/{param}/{pageNum}")
+    public Result select(@PathVariable("pageNum") int pageNum,
+            @Parameter(description = "图片中文名") @PathVariable("param") String param) {
+        return pictureService.select(pageNum,param);
     }
 }
 

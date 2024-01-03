@@ -12,8 +12,10 @@ public interface PictureService {
 
     /**
      * 根据参数返回对应图片集合
+     *
+     * @param pageNum
      * @param param
      * @return
      */
-    Result select(String param);
+    Result select(int pageNum, String param);
 }
