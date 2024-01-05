@@ -27,9 +27,7 @@
         <nacos.version>2.2.1</nacos.version>
         <redis.version>3.0.6</redis.version>
         <spring-web.version>3.0.6</spring-web.version>
-        <mybatis-plus.version>3.5.3</mybatis-plus.version>
         <druid.version>1.2.17</druid.version>
-        <dynamic.version>3.6.1</dynamic.version>
         <mysql.version>8.0.33</mysql.version>
         <lombok.version>1.18.26</lombok.version>
         <guava.version>31.1-jre</guava.version>
@@ -50,6 +48,8 @@
         <jsoup.version>1.16.2</jsoup.version>
         <swagger.version>2.2.0</swagger.version>
         <xxljob.version>2.4.0</xxljob.version>
+        <mybatis-flex.version>1.7.6</mybatis-flex.version>
+        <hikari.version>5.0.1</hikari.version>
     </properties>
 
     <dependencyManagement>
@@ -102,23 +102,23 @@
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-web.version}</version>
             </dependency>
-            <!--myBatis-plus-->
+            <!--mybatis-flex-->
             <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
+                <groupId>com.mybatis-flex</groupId>
+                <artifactId>mybatis-flex-spring-boot-starter</artifactId>
+                <version>${mybatis-flex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mybatis-flex</groupId>
+                <artifactId>mybatis-flex-processor</artifactId>
+                <version>${mybatis-flex.version}</version>
+                <scope>provided</scope>
             </dependency>
             <!--druid-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid.version}</version>
-            </dependency>
-            <!--dynamic-->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-                <version>${dynamic.version}</version>
             </dependency>
             <!--mysql-->
             <dependency>
@@ -231,6 +231,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${lang.version}</version>
+            </dependency>
+            <!--hikari CP-->
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>${hikari.version}</version>
             </dependency>
             <!--okhttp-->
             <dependency>

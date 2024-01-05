@@ -1,7 +1,10 @@
 package com.sora.domain;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mybatisflex.annotation.Id;
+import com.mybatisflex.annotation.KeyType;
+import com.mybatisflex.annotation.Table;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,11 +23,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(description = "用户对象")
-@TableName("sora_user")
+@Table("sora_user")
 public class User {
     /**
      * 主键
      */
+    @Id(keyType = KeyType.Auto)
     private String id;
     /**
      * 用户名
@@ -42,8 +46,9 @@ public class User {
      * 出生日期
      */
     @Schema(description = "出生日期")
-    @Excel(name = "出生日期")
+    @Excel(name = "出生日期",format = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
     /**
      * 密码
@@ -71,8 +76,9 @@ public class User {
      * 创建时间
      */
     @Schema(description = "创建时间")
-    @Excel(name = "创建时间")
+    @Excel(name = "创建时间",format = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
     /**
      * 是否被封禁

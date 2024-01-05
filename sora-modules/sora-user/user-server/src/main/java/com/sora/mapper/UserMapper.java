@@ -1,8 +1,8 @@
 package com.sora.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mybatisflex.core.BaseMapper;
 import com.sora.domain.User;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @Classname UserMapper
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  * @Date 2023/07/01 14:38
  * @Author by Sora33
  */
-@Repository
+@Mapper
 public interface UserMapper extends BaseMapper<User> {
 }

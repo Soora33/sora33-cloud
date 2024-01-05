@@ -1,6 +1,6 @@
 package com.sora.user;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.mybatisflex.annotation.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("sora_user_log")
+@Table("sora_user_log")
 public class UserLog implements Serializable {
 
     @Serial

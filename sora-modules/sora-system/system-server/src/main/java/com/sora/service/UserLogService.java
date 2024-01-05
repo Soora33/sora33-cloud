@@ -1,6 +1,5 @@
 package com.sora.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.sora.result.Result;
 import com.sora.user.UserLog;
 
@@ -10,7 +9,7 @@ import com.sora.user.UserLog;
  * @Date 2023/11/28 13:17
  * @Author by Sora33
  */
-public interface UserLogService extends IService<UserLog> {
+public interface UserLogService{
 
     /**
      * 保存用户操作日志

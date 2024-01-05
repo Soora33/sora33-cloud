@@ -1,6 +1,5 @@
 package com.sora.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.sora.domain.User;
 import com.sora.result.Result;
 
@@ -10,7 +9,7 @@ import com.sora.result.Result;
  * @Date 2023/11/22 10:24
  * @Author by Sora33
  */
-public interface UserService extends IService<User> {
+public interface UserService {
 
     /**
      * 查询所有用户

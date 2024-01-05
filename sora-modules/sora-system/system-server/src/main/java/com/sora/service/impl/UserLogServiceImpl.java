@@ -1,6 +1,5 @@
 package com.sora.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sora.mapper.UserLogMapper;
 import com.sora.result.Result;
 import com.sora.service.UserLogService;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @Author by Sora33
  */
 @Service
-public class UserLogServiceImpl extends ServiceImpl<UserLogMapper, UserLog> implements UserLogService {
+public class UserLogServiceImpl implements UserLogService {
 
     private final UserLogMapper userLogMapper;
 
@@ -29,6 +28,6 @@ public class UserLogServiceImpl extends ServiceImpl<UserLogMapper, UserLog> impl
      */
     @Override
     public Result insert(UserLog userLog) {
-        return userLogMapper.insert(userLog) > 0 ? Result.success() : Result.error();
+        return userLogMapper.insertSelective(userLog) > 0 ? Result.success() : Result.error();
     }
 }

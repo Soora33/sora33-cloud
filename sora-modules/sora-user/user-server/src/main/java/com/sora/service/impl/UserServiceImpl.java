@@ -1,8 +1,7 @@
 package com.sora.service.impl;
 
 import cn.hutool.core.util.IdUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mybatisflex.core.query.QueryChain;
 import com.sora.common.UserConstant;
 import com.sora.domain.User;
 import com.sora.mapper.UserMapper;
@@ -16,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
+import static com.sora.domain.table.UserTableDef.USER;
+
 /**
  * @Classname UserServiceImpl
  * @Description
@@ -23,7 +24,7 @@ import java.util.List;
  * @Author by Sora33
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+public class UserServiceImpl implements UserService {
 
     private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -42,7 +43,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public Result select() {
-        return Result.success(userMapper.selectList(new QueryWrapper<>()));
+        List<User> userList = QueryChain.of(userMapper).list();
+        return Result.success(userList);
     }
 
 
@@ -54,9 +56,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Result insert(User user) {
         // 判断是否重复名字
-        List<User> dataUser = userMapper.selectList(new QueryWrapper<User>().lambda()
-                .eq(User::getName, user.getName()));
-        if (!dataUser.isEmpty()) {
+        List<User> userList = QueryChain.of(userMapper)
+                .where(USER.NAME.eq(user.getName()))
+                .limit(1)
+                .list();
+        if (!userList.isEmpty()) {
             return Result.error("用户名重复！");
         }
         // 对用户的密码进行加盐加密
@@ -64,7 +68,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setPassword(pwd);
         user.setId(IdUtil.getSnowflakeNextIdStr());
         user.setCreateTime(new Date());
-        return userMapper.insert(user) > 0 ? Result.success(null,"注册成功！") : Result.error("注册失败，请稍后重试！");
+        return userMapper.insertSelective(user) > 0 ? Result.success(null,"注册成功！") : Result.error("注册失败，请稍后重试！");
     }
 
 
@@ -77,14 +81,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Result login(String name, String password) {
         // 根据name获取用户
-        List<User> user = userMapper.selectList(new QueryWrapper<User>().lambda()
-                        .eq(User::getName, name));
-        if (user.isEmpty()) {
+        List<User> userList = QueryChain.of(userMapper)
+                .where(USER.NAME.eq(name))
+                .limit(1)
+                .list();
+        if (userList.isEmpty()) {
             return Result.error("用户不存在！");
         }
         // 密码验证
-        if (bCryptPasswordEncoder.matches(password + UserConstant.SLAT, user.get(0).getPassword())) {
-            return Result.success(user.get(0),"登陆成功！");
+        if (bCryptPasswordEncoder.matches(password + UserConstant.SLAT, userList.get(0).getPassword())) {
+            return Result.success(userList.get(0),"登陆成功！");
         }
         return Result.error("密码错误！");
     }

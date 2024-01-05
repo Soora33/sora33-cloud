@@ -63,6 +63,6 @@ public class UserController {
         // 从数据库获取所有用户
         List<User> userList = (List<User>)userService.select().getData();
         // 导出
-        ExcelUtils.exportToExcel(userList,"员工信息", User.class);
+        ExcelUtils.exportToExcel(userList,"用户信息", User.class);
     }
 }
