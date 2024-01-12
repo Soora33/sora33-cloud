@@ -40,15 +40,15 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public Result select(int pageNum, String param) {
         if (!SpiderUtils.isValidInput(param)) {
-            return Result.error("仅支持中文查找！");
+            return Result.error("仅支持英文查找！");
         }
-        int hippopxCount = pictureLogic.getHippopxCount(param);
-        List<String> hippopxData = pictureLogic.getHippopxData(param,pageNum);
-        // 默认展示12个
-        hippopxData = hippopxData.subList(0, Math.min(hippopxData.size(), PictureConstant.PAGE_SIZE));
+        List<String> paperData = pictureLogic.getPaperData(param, pageNum);
+        int paperCount = pictureLogic.getPaperCount(param);
+        // 默认展示个数
+        paperData = paperData.subList(0, Math.min(paperData.size(), PictureConstant.PAGE_SIZE));
         HashMap<String, Object> map = new HashMap<>();
-        map.put("data", hippopxData);
-        map.put("count", hippopxCount);
+        map.put("data", paperData);
+        map.put("count", paperCount);
         return Result.success(map);
     }
 }

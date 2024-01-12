@@ -109,6 +109,28 @@ public class OkHttpUtils {
 
 
     /**
+     * 接口是否可以连接通
+     * @param URL 请求地址
+     * @return
+     */
+    public static boolean isSuccess(String URL) {
+        // 获取headers
+        Headers headers = getHeaders(new HashMap<>());
+
+        Request request = getRequest(URL, headers, OkHttpUtils.METHOD_GET);
+
+        try (Response execute = okHttpClient.newCall(request).execute()) {
+            if (execute.isSuccessful()) {
+                return true;
+            }
+            return false;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+
+    /**
      * 以异步方式发起get请求调用
      * @param URL 请求地址
      * @param paramMap 参数map
@@ -291,7 +313,7 @@ public class OkHttpUtils {
             if (execute.isSuccessful()) {
                 ResponseBody body = execute.body();
                 String result = body == null ? null : body.string();
-                logger.info("接口请求访问成功，返回值：[{}]", result);
+//                logger.info("接口请求访问成功，返回值：[{}]", result);
                 return result;
             }
             logger.error("接口请求失败！错误码：[{}]", execute.code());

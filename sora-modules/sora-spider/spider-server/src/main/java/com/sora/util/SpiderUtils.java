@@ -21,7 +21,7 @@ public class SpiderUtils {
     private static final Logger logger = LoggerFactory.getLogger(SpiderUtils.class);
 
     /**
-     * 占位符
+     * 建立Jsoup连接
      * @param url
      * @param param
      * @return
@@ -44,7 +44,7 @@ public class SpiderUtils {
     }
 
     /**
-     * 中文校验
+     * 英文校验
      * @param input
      * @return
      */
@@ -59,6 +59,6 @@ public class SpiderUtils {
         Matcher matcher = pattern.matcher(input);
 
         // 使用 find 方法进行匹配
-        return !matcher.find();
+        return matcher.find();
     }
 }

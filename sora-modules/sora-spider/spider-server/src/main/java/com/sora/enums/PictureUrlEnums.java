@@ -9,7 +9,8 @@ package com.sora.enums;
 public enum PictureUrlEnums {
 
     WALLHAVEN("https://wallhaven.cc/", null,null),
-    HIPPOPX("https://www.hippopx.com/zh/", null,null);
+    HIPPOPX("https://www.hippopx.com/zh/", null,null),
+    WALLPAPERSCRAFT("https://wallpaperscraft.com/", null,null);
 
     private final String url;
     private final String[] label;

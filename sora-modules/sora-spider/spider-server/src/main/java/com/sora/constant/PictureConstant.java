@@ -7,7 +7,5 @@ package com.sora.constant;
  * @Author by Sora33
  */
 public class PictureConstant {
-
-    public static final String PICTURE_URL = "https://wallhaven.cc/";
-    public static final int PAGE_SIZE = 12;
+    public static final int PAGE_SIZE = 15;
 }
