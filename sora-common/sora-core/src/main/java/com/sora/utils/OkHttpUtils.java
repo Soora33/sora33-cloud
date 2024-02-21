@@ -33,8 +33,8 @@ public class OkHttpUtils {
     static {
         // 设置默认连接和超时时间都是5s
         OkHttpUtils.okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(5L, TimeUnit.SECONDS)
-                .readTimeout(5L, TimeUnit.SECONDS)
+                .connectTimeout(5L, TimeUnit.MINUTES)
+                .readTimeout(5L, TimeUnit.MINUTES)
                 .build();
     }
 

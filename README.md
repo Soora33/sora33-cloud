@@ -13,22 +13,21 @@
 
 ## 中间件和技术栈
 
-| 中间件/技术           | 版本   |
-| --------------------- | ------ |
-| RabbitMQ              | 3.9.11 |
-| Redis                 | 6.2.6  |
-| ElasticSearch         | 7.17.0 |
-| Jsoup                 | 1.16.2 |
-| MyBatisPlus           | 3.5.3  |
-| JWT                   | 0.9.1  |
-| Swagger 3             | 2.2.0  |
-| XXLJob                | 2.4.0  |
-| 多数据源管理(dynamic) | 3.6.1  |
-| MySQL                 | 8.0.32 |
-| Nacos                 | 2.2.1  |
-| Sentinel              | 1.8.6  |
-| OkHttp                | 4.11.0 |
-| EasyPoi               | 5.0.0  |
+| 中间件/技术          | 版本     |
+|-----------------|--------|
+| RabbitMQ        | 3.9.11 |
+| Redis           | 6.2.6  |
+| ElasticSearch   | 7.17.0 |
+| Jsoup           | 1.16.2 |
+| MyBatisFlex     | 1.7.6  |
+| JWT             | 0.9.1  |
+| Swagger 3       | 2.2.0  |
+| XXLJob          | 2.4.0  |
+| MySQL           | 8.0.32 |
+| Nacos           | 2.3.0  |
+| Sentinel        | 1.8.6  |
+| OkHttp          | 4.11.0 |
+| EasyPoi         | 5.0.0  |
 
 ## 模块
 

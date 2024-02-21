@@ -24,7 +24,7 @@
         <spring-boot.version>3.0.2</spring-boot.version>
         <spring-cloud.version>2022.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
-        <nacos.version>2.2.1</nacos.version>
+        <nacos.version>2.3.0</nacos.version>
         <redis.version>3.0.6</redis.version>
         <spring-web.version>3.0.6</spring-web.version>
         <druid.version>1.2.17</druid.version>
@@ -50,6 +50,7 @@
         <xxljob.version>2.4.0</xxljob.version>
         <mybatis-flex.version>1.7.6</mybatis-flex.version>
         <hikari.version>5.0.1</hikari.version>
+        <prometheus.version>1.12.2</prometheus.version>
     </properties>
 
     <dependencyManagement>
@@ -196,6 +197,18 @@
                 <artifactId>jjwt</artifactId>
                 <version>${jjwt.version}</version>
             </dependency>
+            <!--prometheus-->
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-prometheus</artifactId>
+                <version>${prometheus.version}</version>
+            </dependency>
+            <!--actuator-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
             <!--jaxb-->
             <dependency>
                 <groupId>javax.xml.bind</groupId>
@@ -297,6 +310,13 @@
                 <groupId>com.sora</groupId>
                 <artifactId>sora-log</artifactId>
                 <version>${sora.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.apache.hive</groupId>
+                <artifactId>hive-jdbc</artifactId>
+                <version>2.3.2</version>
             </dependency>
 
             <!--feign-->

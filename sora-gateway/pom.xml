@@ -47,6 +47,14 @@
                     <groupId>com.sora</groupId>
                     <artifactId>sora-swagger</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-amqp</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.elasticsearch.client</groupId>
+                    <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
     </dependencies>

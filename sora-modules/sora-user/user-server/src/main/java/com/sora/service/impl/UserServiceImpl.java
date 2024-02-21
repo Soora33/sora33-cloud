@@ -1,12 +1,23 @@
 package com.sora.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
+import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryChain;
 import com.sora.common.UserConstant;
 import com.sora.domain.User;
+import com.sora.domain.permissions.SoraMenu;
+import com.sora.domain.permissions.SoraMenuRole;
+import com.sora.domain.permissions.SoraUserRole;
+import com.sora.domain.permissions.table.SoraMenuRoleTableDef;
+import com.sora.domain.permissions.table.SoraUserRoleTableDef;
 import com.sora.mapper.UserMapper;
+import com.sora.mapper.permissions.MenuMapper;
+import com.sora.mapper.permissions.MenuRoleMapper;
+import com.sora.mapper.permissions.UserRoleMapper;
 import com.sora.result.Result;
 import com.sora.service.UserService;
+import com.sora.utils.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,9 +42,16 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     private final UserMapper userMapper;
+    private final UserRoleMapper userRoleMapper;
+    private final MenuMapper menuMapper;
+    private final MenuRoleMapper menuRoleMapper;
+    private final Integer ADMIN_ID = 1;
 
-    public UserServiceImpl(UserMapper userMapper) {
+    public UserServiceImpl(UserMapper userMapper, UserRoleMapper userRoleMapper, MenuMapper menuMapper, MenuRoleMapper menuRoleMapper) {
         this.userMapper = userMapper;
+        this.userRoleMapper = userRoleMapper;
+        this.menuMapper = menuMapper;
+        this.menuRoleMapper = menuRoleMapper;
     }
 
 
@@ -42,9 +60,14 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public Result select() {
-        List<User> userList = QueryChain.of(userMapper).list();
-        return Result.success(userList);
+    public Result select(String name, Integer pageNum, Integer pageSize) {
+        if ("null".equals(name) || StrUtil.isBlank(name)) {
+            name = null;
+        }
+        Page<User> page = QueryChain.of(userMapper)
+                .where(USER.NAME.like(name))
+                .page(new Page<>(pageNum, pageSize));
+        return Result.success(page);
     }
 
 
@@ -93,5 +116,68 @@ public class UserServiceImpl implements UserService {
             return Result.success(userList.get(0),"登陆成功！");
         }
         return Result.error("密码错误！");
+    }
+
+    @Override
+    public Result permissionsById(String id) {
+        // 获取用户所有角色
+        List<Integer> roleIdList = QueryChain.of(userRoleMapper)
+                .where(SoraUserRoleTableDef.SORA_USER_ROLE.USER_ID.eq(id))
+                .list()
+                .stream()
+                .map(SoraUserRole::getRoleId)
+                .toList();
+        if (roleIdList.isEmpty()) {
+            return Result.success();
+        }
+        // 获取全量菜单列表
+        List<SoraMenu> menuList = QueryChain.of(menuMapper).list();
+        // 判断是否有管理员权限
+        boolean match = roleIdList.stream().anyMatch(data -> data.equals(ADMIN_ID));
+        if (match) {
+            return Result.success(menuList);
+        }
+        // 获取该用户角色所能查看的菜单列表
+        List<Integer> userMenuList = QueryChain.of(menuRoleMapper)
+                .where(SoraMenuRoleTableDef.SORA_MENU_ROLE.ROLE_ID.in(roleIdList))
+                .list()
+                .stream()
+                .map(SoraMenuRole::getMenuId)
+                .toList();
+        // 在全量菜单基础上筛选
+        List<SoraMenu> soraMenus = menuList.stream().filter(data -> userMenuList.contains(data.getId())).toList();
+        return Result.success(soraMenus);
+    }
+
+
+    /**
+     * 获取用户权限
+     * @param id
+     * @return
+     */
+    @Override
+    public Result permissionsByToken(String id) {
+        id = JwtUtils.getUserId(id);
+        return this.permissionsById(id);
+    }
+
+    /**
+     * 根据用户名获取用户
+     * @param name
+     * @return
+     */
+    @Override
+    public Result selectUserByName(String name) {
+        Page<User> page = QueryChain.of(userMapper)
+                .where(USER.NAME.eq(name))
+                .page(new Page<>(1, 100));
+        return Result.success(page);
+    }
+
+
+    @Override
+    public Result update(User user) {
+        int update = userMapper.update(user);
+        return update > 0 ? Result.success("更新用户信息成功") : Result.error("更新用户失败！");
     }
 }
