@@ -172,7 +172,6 @@
             <artifactId>sora-swagger</artifactId>
         </dependency>
 
-
     </dependencies>
 
 </project>

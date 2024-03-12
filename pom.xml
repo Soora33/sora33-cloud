@@ -337,7 +337,6 @@
     </dependencies>
 
     <build>
-        <finalName>sora33-cloud</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
