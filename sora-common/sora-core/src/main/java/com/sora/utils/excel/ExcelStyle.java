@@ -3,6 +3,8 @@ package com.sora.utils.excel;
 import cn.afterturn.easypoi.excel.export.styler.AbstractExcelExportStyler;
 import cn.afterturn.easypoi.excel.export.styler.IExcelExportStyler;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.DefaultIndexedColorMap;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 
 /**
  * @Classname ExcelStyle
@@ -71,6 +73,9 @@ public class ExcelStyle extends AbstractExcelExportStyler implements IExcelExpor
     @Override
     public CellStyle stringNoneStyle(Workbook workbook, boolean isWarp) {
         CellStyle contentStyle = workbook.createCellStyle();
+        // 赋值单元格颜色
+//        int[] toRgb = hexToRgb("#EBF0DE");
+//        setColor(contentStyle, toRgb);
         // 水平 居中
         contentStyle.setAlignment(HorizontalAlignment.CENTER);
         // 垂直居中
@@ -114,5 +119,24 @@ public class ExcelStyle extends AbstractExcelExportStyler implements IExcelExpor
         // 自动换行
         contentStyle.setWrapText(true);
         return contentStyle;
+    }
+
+    public static int[] hexToRgb(String hexColor) {
+        if (hexColor.startsWith("#")) {
+            hexColor = hexColor.substring(1);
+        }
+        int rgb = Integer.parseInt(hexColor, 16);
+        int red = (rgb >> 16) & 0xFF;
+        int green = (rgb >> 8) & 0xFF;
+        int blue = rgb & 0xFF;
+
+        return new int[]{red, green, blue};
+    }
+
+    public void setColor(CellStyle contentStyle, int[] rgbArray) {
+        byte[] rgb = new byte[]{(byte) rgbArray[0], (byte) rgbArray[1], (byte) rgbArray[2]};
+        XSSFColor myColor = new XSSFColor(rgb, new DefaultIndexedColorMap());
+        contentStyle.setFillForegroundColor(myColor);
+        contentStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
     }
 }

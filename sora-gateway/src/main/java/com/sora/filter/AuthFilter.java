@@ -64,13 +64,13 @@ public class AuthFilter implements GlobalFilter, Ordered {
         HttpMethod method = request.getMethod();
         // header操作对象
         String url = request.getURI().getPath();
+        // 跳过不需要验证的路径
+        if (GatewayUtil.containsSubstring(ignore,url)) {
+            return chain.filter(exchange);
+        }
         // 判断是否是万能token
         if (tokens.contains(headers.getFirst(JwtConstants.TOKEN))) {
             logger.info("正在使用万能token访问后台，token：[{}]", headers.getFirst(JwtConstants.TOKEN));
-            return chain.filter(exchange);
-        }
-        // 跳过不需要验证的路径
-        if (GatewayUtil.containsSubstring(ignore,url)) {
             return chain.filter(exchange);
         }
         logger.info("请求日志：uri:[{}] , 请求方式:[{}]", url, method);

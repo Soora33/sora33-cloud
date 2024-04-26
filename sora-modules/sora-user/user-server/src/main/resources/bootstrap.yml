@@ -10,10 +10,10 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
-        namespace: 77654658-9d96-4fdc-a69d-0f0ca7f9ad1a
+        namespace: sora-${spring.profiles.active}
       config:
         server-addr: 127.0.0.1:8848
-        namespace: 77654658-9d96-4fdc-a69d-0f0ca7f9ad1a
+        namespace: sora-${spring.profiles.active}
         # 配置文件后缀名
         file-extension: yml
         # 共享配置

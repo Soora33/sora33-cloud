@@ -1,5 +1,6 @@
 package com.sora.controller;
 
+import com.mybatisflex.core.paginate.Page;
 import com.sora.anno.UserLogAnno;
 import com.sora.constants.UserLogConstants;
 import com.sora.domain.User;
@@ -10,8 +11,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @Classname UserController
@@ -25,6 +24,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -45,7 +45,7 @@ public class UserController {
 
     @Operation(summary = "登陆", description = "通过用户名与密码登陆")
     @GetMapping("select/{name}/{password}")
-    public Result selectUserList(@Parameter(description = "用户名") @PathVariable("name") String name,
+    public Result login(@Parameter(description = "用户名") @PathVariable("name") String name,
                                  @Parameter(description = "密码") @PathVariable("password") String password) {
         // 从数据库获取所有用户
         return userService.login(name,password);
@@ -63,7 +63,7 @@ public class UserController {
 
     @Operation(summary = "插入用户", description = "向用户表插入一条数据")
     @PostMapping("insert")
-    public Result selectUserList(@Parameter(description = "用户") @RequestBody User user) {
+    public Result insertUser(@Parameter(description = "用户") @RequestBody User user) {
         // 从数据库获取所有用户
         return userService.insert(user);
     }
@@ -81,8 +81,8 @@ public class UserController {
     @GetMapping("export/excel")
     public void exportUserList() {
         // 从数据库获取所有用户
-        List<User> userList = (List<User>)userService.select(null, 1, 1000).getData();
+        Page<User> userList = (Page<User>)userService.select(null, 1, 1000).getData();
         // 导出
-        ExcelUtils.exportToExcel(userList,"用户信息", User.class);
+        ExcelUtils.exportToExcel(userList.getRecords(),"用户信息", User.class);
     }
 }
