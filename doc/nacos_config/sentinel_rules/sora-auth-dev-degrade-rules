@@ -1,0 +1,19 @@
+[
+    {
+        "resource": "exception",
+        "limitApp": "default",
+        "grade": 0,
+        "count": 200,
+        "slowRatioThreshold": 0.2,
+        "timeWindow": 10,
+        "minRequestAount": 5
+    },
+     {
+        "resource": "exception",
+        "limitApp": "default",
+        "grade": 1,
+        "count": 0.3,
+        "timeWindow": 10,
+        "minRequestAount": 5
+    }
+]

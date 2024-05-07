@@ -1,0 +1,76 @@
+spring:
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            # 设置允许的域名
+            allowedOrigins:
+              - "*"
+            # 允许所有头信息
+            allowedHeaders: "*"
+            # 设置允许携带cookie
+            # 为true时allowedOrigins不允许为* 会报错
+            allowCredentials: false
+            # 允许跨域请求的请求方式
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+      discovery:
+        locator:
+          lowerCaseServiceId: true
+          enabled: true
+      routes:
+        - id: sora-system
+          uri: lb://sora-system
+          predicates:
+            - Path=/sora/system/**
+          filters:
+            - StripPrefix=2
+        - id: sora-auth
+          uri: lb://sora-auth
+          predicates:
+            - Path=/sora/auth/**
+          filters:
+            - StripPrefix=2
+        - id: sora-user
+          uri: lb://sora-user
+          predicates:
+            - Path=/sora/user/**
+          filters:
+            - StripPrefix=2
+        - id: sora-spider
+          uri: lb://sora-spider
+          predicates:
+            - Path=/sora/spider/**
+          filters:
+            - StripPrefix=2
+ignore:
+  whites:
+    - /sora/auth/auth/login
+    - /sora/auth/auth/register
+  token:
+    - 123
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+# 激活普罗米修斯
+  endpoint:
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+# 允许指标导出
+  metrics:
+    export:
+      prometheus:
+        enabled: true

@@ -1,0 +1,40 @@
+spring:
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 
+  datasource:
+    druid:
+      stat-view-servlet:
+        enabled: true
+        loginUsername: sora33
+        loginPassword: sora33
+mybatis-flex:
+  datasource:
+    master:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/sora33?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+      username: root
+      password: root
+    hive:
+      url: jdbc:hive2://localhost:10000/default
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+xxl:
+  job:
+    # token
+    accessToken: xxx
+    admin:
+      # 连接的admin地址
+      addresses: http://127.0.0.1:7777/xxl-job-admin
+    executor:
+      # appName
+      appname: xxx
+      ip: ''
+      logpath: /Users/xxl/log/xxl-job-executor
+      logretentiondays: 30
+      # 运行的端口号
+      port: 6666

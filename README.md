@@ -7,9 +7,9 @@
 ## 版本信息
 
 - JDK: 17
-- Spring Boot: 3.0.2
-- Alibaba Cloud: 2022.0.0.0-RC2
-- Spring Cloud: 2022.0.0
+- Spring Boot: 3.2.4
+- Alibaba Cloud: 2023.0.1.0
+- Spring Cloud: 2023.0.1
 
 ## 中间件和技术栈
 

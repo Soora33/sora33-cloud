@@ -1,0 +1,62 @@
+spring:
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    virtual-host: /
+    # 开启生产者消息确认
+    publisher-confirm-type: correlated
+    # 开启交换机回调机制
+    publisher-returns: true
+  cloud:
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8818
+      # 是否支持懒加载
+      eager: true
+      datasource:
+        flow:
+          nacos:
+            #指定nacos服务器地址
+            server-addr: 127.0.0.1:8848
+            namespace: sora-dev
+            dataId: ${spring.application.name}-${spring.profiles.active}-flow-rules
+            groupId: sentinel_rules
+            # 指定配置类型为流控
+            rule-type: flow
+            username: nacos
+            password: nacos
+        degrade:
+          nacos:
+            #指定nacos服务器地址
+            server-addr: 127.0.0.1:8848
+            namespace: sora-dev
+            dataId: ${spring.application.name}-${spring.profiles.active}-degrade-rules
+            groupId: sentinel_rules
+            # 指定配置类型为熔断
+            rule-type: degrade
+            username: nacos
+            password: nacos
+springdoc:
+  api-docs:
+    # 文档自定义路径
+    path: /sora/doc
+  swagger-ui:
+    # html网页自定义路径
+    path: /sora-doc.html
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+# 激活普罗米修斯
+  endpoint:
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+# 允许指标导出
+  metrics:
+    export:
+      prometheus:
+        enabled: true
