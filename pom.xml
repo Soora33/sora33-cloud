@@ -21,10 +21,10 @@
         <sora.version>1.0.0</sora.version>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>3.0.2</spring-boot.version>
-        <spring-cloud.version>2022.0.0</spring-cloud.version>
-        <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
-        <nacos.version>2.3.0</nacos.version>
+        <spring-boot.version>3.2.4</spring-boot.version>
+        <spring-cloud.version>2023.0.1</spring-cloud.version>
+        <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
+        <nacos.version>2.3.2</nacos.version>
         <redis.version>3.0.6</redis.version>
         <spring-web.version>3.0.6</spring-web.version>
         <druid.version>1.2.17</druid.version>
@@ -37,7 +37,7 @@
         <jjwt.version>0.9.1</jjwt.version>
         <pagehelper.version>2.1.0</pagehelper.version>
         <lang.version>3.12.0</lang.version>
-        <logback.version>1.4.7</logback.version>
+        <logback.version>1.5.6</logback.version>
         <jaxb.version>2.4.0-b180830.0359</jaxb.version>
         <poi.version>5.0.0</poi.version>
         <java-servlet.version>6.0.0</java-servlet.version>
@@ -48,7 +48,7 @@
         <jsoup.version>1.16.2</jsoup.version>
         <swagger.version>2.2.0</swagger.version>
         <xxljob.version>2.4.0</xxljob.version>
-        <mybatis-flex.version>1.7.6</mybatis-flex.version>
+        <mybatis-flex.version>1.8.8</mybatis-flex.version>
         <hikari.version>5.1.0</hikari.version>
         <prometheus.version>1.12.2</prometheus.version>
     </properties>
@@ -106,7 +106,7 @@
             <!--mybatis-flex-->
             <dependency>
                 <groupId>com.mybatis-flex</groupId>
-                <artifactId>mybatis-flex-spring-boot-starter</artifactId>
+                <artifactId>mybatis-flex-spring-boot3-starter</artifactId>
                 <version>${mybatis-flex.version}</version>
             </dependency>
             <dependency>
@@ -342,6 +342,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>

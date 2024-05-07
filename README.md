@@ -19,12 +19,12 @@
 | Redis           | 6.2.6  |
 | ElasticSearch   | 7.17.0 |
 | Jsoup           | 1.16.2 |
-| MyBatisFlex     | 1.7.6  |
+| MyBatisFlex     | 1.8.8  |
 | JWT             | 0.9.1  |
 | Swagger 3       | 2.2.0  |
 | XXLJob          | 2.4.0  |
 | MySQL           | 8.0.32 |
-| Nacos           | 2.3.0  |
+| Nacos           | 2.3.2  |
 | Sentinel        | 1.8.6  |
 | OkHttp          | 4.11.0 |
 | EasyPoi         | 5.0.0  |

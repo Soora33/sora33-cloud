@@ -2,6 +2,7 @@ package com.sora.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.google.common.collect.Lists;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryChain;
 import com.sora.common.UserConstant;
@@ -23,8 +24,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.util.*;
 
 import static com.sora.domain.table.UserTableDef.USER;
 
@@ -67,7 +68,49 @@ public class UserServiceImpl implements UserService {
         Page<User> page = QueryChain.of(userMapper)
                 .where(USER.NAME.like(name))
                 .page(new Page<>(pageNum, pageSize));
-        return Result.success(page);
+
+        // 过滤
+        List<User> records = page.getRecords();
+        List<HashMap<String, Object>> maps = convertList(records);
+        System.out.println(maps);
+
+        List<String> roleList = Lists.newArrayList("name", "sex","password");
+        List<Map<String, Object>> result = new ArrayList<>();
+        records.forEach(data -> {
+            HashMap<String, Object> map = new HashMap<>();
+            if (roleList.contains("name")) {
+                map.put("name", data.getName());
+            }
+            if (roleList.contains("sex")) {
+                map.put("sex", data.getSex());
+            }
+            if (roleList.contains("password")) {
+                map.put("password", data.getPassword());
+            }
+            result.add(map);
+        });
+
+        Page<Map<String, Object>> objectPage = new Page<>();
+        objectPage.setRecords(result);
+        return Result.success(objectPage);
+    }
+
+    public static <T> List<HashMap<String, Object>> convertList(List<T> list) {
+        List<HashMap<String, Object>> mapList = new ArrayList<>();
+        for (T item : list) {
+            HashMap<String, Object> map = new HashMap<>();
+            Field[] fields = item.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true); // 使私有字段也能被访问
+                try {
+                    map.put(field.getName(), field.get(item));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace(); // 处理异常，实际应用中可能需要更合适的错误处理
+                }
+            }
+            mapList.add(map);
+        }
+        return mapList;
     }
 
 
